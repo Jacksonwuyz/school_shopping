@@ -17,8 +17,32 @@ public interface CustomerService {
     /**
      * 判断账户名是否存在（用于创建新账户的时候）
      * @param username
-     * @return true表示存在，false表示存在
+     * @return true表示存在，false表示不存在
      */
     boolean existsCustomer(String username);
+
+    /*shop登录*/
+    Customer login(String username, String password);
+
+
+    //删除
+    /**
+     * 删除指定账户
+     * @param id 被删除的账户id
+     * @return true表示删除成功
+     */
+    boolean deleteCustomer(Integer id);
+
+
+    /**
+     * 修改账户的基本信息
+     * 说明：
+     * 1、修改后的账户名不能与其他账户的账户名重名
+     * @param
+     * @param
+     * @param
+     * @return false表示修改失败，true表示修改成功
+     */
+    boolean updateCustomer(Customer customer);
 
 }

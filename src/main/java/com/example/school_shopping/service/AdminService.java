@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface AdminService {
 
-    Admin login(String username,String password);
+
+    //登录
+    Admin login(String username, String password);
 
 
     /**
@@ -19,6 +21,28 @@ public interface AdminService {
     boolean existsAdmin(String username);
 
 
-
+//添加
     boolean saveAdmin(Admin admin);
+
+    /**
+     * 删除指定账户
+     *
+     * @param id      被删除的账户id
+     * @param adminId 执行删除的管理账户
+     * @return true表示删除成功
+     */
+    boolean deleteAdmin(Integer id, Integer adminId);
+
+
+    /**
+     * 修改账户的基本信息
+     * 说明：
+     * 1、修改后的账户名不能与其他账户的账户名重名
+     *
+     * @param
+     * @param
+     * @param
+     * @return false表示修改失败，true表示修改成功
+     */
+    boolean updateAdmin(Admin admin);
 }

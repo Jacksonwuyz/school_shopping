@@ -4,7 +4,7 @@
 例如namespace="com.cn.mybatis.test1.dao.userMapper"就是com.cn.mybatis.test1.dao(包名)+userMapper(userMapper.xml文件去除后缀)
  -->
 <mapper namespace="com.example.school_shopping.dao.AdminDao">
-    <!-- 根据账户名和密码，查询得到一个admin对象 -->
+	<!-- 根据账户名和密码，查询得到一个admin对象 -->
 	<select id="login" resultType="Admin">
 		select * from admin where username=#{username} and password=#{password}
 	</select>
@@ -16,5 +16,18 @@
 	<select id="existsAdmin" resultType="Admin">
 		select * from admin where username=#{username}
 </select>
-
+	<!--删除-->
+	<delete id="deleteAdmin">
+		delete from admin where id=#{id}
+	</delete>
+	<!--修改-->
+	<update id="updateAdmin">
+		update admin
+		<set>
+			<if test="username!=null and username.length()>0">username=#{username},</if>
+			<if test="password!=null and password.length()>0">password=#{password},</if>
+			<if test="name!=null and name.length()>0">name=#{name},</if>
+		</set>
+		where id=#{id}
+	</update>
 </mapper>

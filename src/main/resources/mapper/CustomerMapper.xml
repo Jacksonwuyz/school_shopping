@@ -4,12 +4,45 @@
 例如namespace="com.cn.mybatis.test1.dao.userMapper"就是com.cn.mybatis.test1.dao(包名)+userMapper(userMapper.xml文件去除后缀)
  -->
 <mapper namespace="com.example.school_shopping.dao.CustomerDao">
+	<!--添加-->
 	<insert id="SaveCustomer">
-		insert into customer(id,username,name,password,picUrl,tel,address,zip,email,intro,createTime) values(null,#{username},#{name},#{password},#{picUrl},#{tel},#{address},#{zip},#{email},#{intro},#{createTime})
+		insert into customer(id,username,password,name,tel,address,zip,email,picUrl,intro,createTime) values(null,#{username},#{password},#{name},#{tel},#{address},#{zip},#{email},#{picUrl},#{intro},#{createTime})
 	</insert>
-
-	<select id="existsUsername" resultType="int">
-		select count(id) from customer where username=#{username}
+	<!--重名-->
+	<select id="existsCustomer" resultType="Customer">
+		select * from customer where username=#{username}
 	</select>
 
+	<!--登录-->
+	<select id="login" resultType="Customer">
+		select * from customer where username=#{username} and password=#{password}
+	</select>
+	<!--删除-->
+	<delete id="deleteCustomer">
+		delete from customer where id=#{id}
+	</delete>
+	<!--修改-->
+	<!--<update id="updateCustomer">
+		update customer set username=#{username}, name=#{name},picUrl=#{picUrl},tel=#{tel},address=#{address},zip=#{zip}, email=#{email},intro=#{intro}where id=#{id}
+	</update>-->
+
+	<update id="updateCustomer">
+		update customer
+		<set>
+			<if test="username!=null and username.length()>0">username=#{username},</if>
+			<if test="password!=null and password.length()>0">password=#{password},</if>
+			<if test="name!=null and name.length()>0">name=#{name},</if>
+			<if test="picUrl!=null">picUrl=#{picUrl},</if>
+			<if test="tel!=null">tel=#{tel},</if>
+			<if test="address!=null">address=#{address},</if>
+			<if test="zip!=null">zip=#{zip},</if>
+			<if test="email!=null">email=#{email},</if>
+			<if test="intro!=null">intro=#{intro},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<select id="getCustomer" resultType="Customer">
+		select * from customer where id=#{id}
+	</select>
 </mapper>

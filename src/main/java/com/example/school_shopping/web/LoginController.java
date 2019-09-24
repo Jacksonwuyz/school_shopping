@@ -2,10 +2,7 @@ package com.example.school_shopping.web;
 
 import com.example.school_shopping.model.Admin;
 import com.example.school_shopping.service.AdminService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -18,14 +15,14 @@ import java.util.Map;
 public class LoginController {
     @Resource
     private AdminService adminService;
-
-    @GetMapping(value = "/api/login")
+    //后台登录
+    @GetMapping(value = "/api/backstage/login")
     public Map<String,Object> Login(String username,String password){
         Map<String,Object> map=new HashMap<String,Object>();
         username="user";
         password="123456";
         if (adminService.login(username, password)!=null){
-            map.put("code",0);//自定义值：status如果为0表示登录成功，如果为-1表示登录失败
+            map.put("code",1);//自定义值：code如果为1表示登录成功，如果为-1表示登录失败
         }else {
             map.put("code",-1);
             map.put("msg","登录失败：请重新输入账户名或者密码！");
@@ -34,10 +31,10 @@ public class LoginController {
     }
 
 
-    //执行管理员添加页面
+    //执行管理员（后台）添加页面
 
-    @PutMapping(value = "api/backstage/adminmanage/saveAdmin")
-    public Map<String,Object> doSaveAdmin(HttpServletRequest request, Admin admin){
+    @PostMapping(value = "api/backstage/adminmanage/saveAdmin")
+    public Map<String,Object> doSaveAdmin(Admin admin){
         Map<String,Object> map=new HashMap<String,Object>();
 //        admin.setUsername(admin.getUsername().trim());
 //        admin.setName(admin.getName().trim());
@@ -45,11 +42,11 @@ public class LoginController {
             map.put("msg","账户创建失败:账户名不能为空");
         }else if(admin.getName().length()==0){
             map.put("msg","账户创建失败:网名不能为空");
-    }  else if(adminService.existsAdmin(admin.getUsername())==true){
+        }  else if(adminService.existsAdmin(admin.getUsername())==true){
             if(adminService.saveAdmin(admin)==true){
-                map.put("code","0");
+                map.put("code","1");
                 map.put("msg","账户创建成功");
-           }
+            }
         }else{
             map.put("msg","账户创建失败:重名");
             map.put("code","-1");

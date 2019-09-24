@@ -14,13 +14,13 @@ import java.util.Date;
 public class AdminServiceImp implements AdminService {
     @Resource
     private AdminDao adminDao;
-
+//登录
     public Admin login(String username,String password){
         Admin admin=adminDao.login(username, password);
         return admin;
     }
 
-
+//重名
 
     public boolean existsAdmin(String username) {
         if (adminDao.existsAdmin(username)==null) {
@@ -30,7 +30,7 @@ public class AdminServiceImp implements AdminService {
         }
     }
 
-
+//注册
     public boolean saveAdmin(Admin admin) {
         boolean stsatus = false;
         admin.setPassword(SHA.getResult("123456"));
@@ -43,4 +43,30 @@ public class AdminServiceImp implements AdminService {
         return stsatus;
     }
 
+    //删除
+    public boolean deleteAdmin(Integer id, Integer adminId) {
+        boolean status = false;//存储修改结果
+        if (id != null && adminId != null) {
+            if (adminId != id.intValue()) {//如果不是自己删除自己
+                int n = adminDao.deleteAdmin(id);
+                if (n == 1) {
+                    status = true;
+                }
+            }
+        }
+        return status;
+    }
+
+    //编辑（修改）
+    public boolean updateAdmin(Admin admin) {
+        boolean status = false;//存储修改结果
+        if (adminDao.existsAdmin(admin.getUsername())==null) {//如果不重名
+            if (adminDao.updateAdmin(admin) == 1) {
+                status = true;
+            } else {
+                status = false;
+            }
+        }
+        return status;
+    }
 }
