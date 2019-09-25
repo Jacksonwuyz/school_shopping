@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+例如namespace="com.cn.mybatis.test1.dao.userMapper"就是com.cn.mybatis.test1.dao(包名)+userMapper(userMapper.xml文件去除后缀)
+ -->
+<mapper namespace="com.example.school_shopping.dao.ProductDao">
+	<!--添加-->
+	<insert id="SaveProduct">
+		insert into
+		product(id,productTypeId,name,orderNum,description,content,price,originalPrice,picUrl,number,click,onSale,createTime,creatorId,finalEditorId,updateTime)
+		values(null,#{productTypeId},#{name},#{orderNum},#{description},#{content},#{price},#{originalPrice},#{picUrl},#{number},#{click},#{onSale},#{createTime},#{creatorId},#{finalEditorId},#{updateTime})
+	</insert>
+<!--重名-->
+	<select id="existsProduct" resultType="Product">
+		select * from product where name=#{name}
+	</select>
+	<!--删除-->
+	<delete id="deleteProduct">
+		delete from product where id=#{id}
+	</delete>
+	<!--修改-->
+	<update id="updateProduct">
+		update product
+		<set>
+			<if test="productType!=null and productType.id!=null">productTypeId=#{productType.id},</if>
+			<if test="name!=null and name.length()>0">name=#{name},</if>
+			<if test="orderNum!=null">orderNum=#{orderNum},</if>
+			<if test="description!=null">description=#{description},</if>
+			<if test="content!=null">content=#{content},</if>
+			<if test="price!=null and price>0">price=#{price},</if>
+			<if test="originalPrice!=null and originalPrice>0">originalPrice=#{originalPrice},</if>
+			<if test="picUrl!=null">picUrl=#{picUrl},</if>
+			<if test="number!=null and number>0">number=#{number},</if>
+			<if test="click!=null and click>0">click=#{click},</if>
+			<if test="price!=null and price>0">price=#{price},</if>
+			<if test="finalEditor!=null and finalEditor.id!=null">finalEditorId=#{finalEditor.id},</if>
+			<if test="updateTime!=null">updateTime=#{updateTime},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+</mapper>
