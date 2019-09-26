@@ -2,6 +2,8 @@ package com.example.school_shopping.web;
 
 import com.example.school_shopping.model.Customer;
 import com.example.school_shopping.service.CustomerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,14 +15,17 @@ import java.util.List;
 import java.util.Map;
 
 //表示所有的请求都是@ResponseBody
+@Api(tags = "客户模块")
 @RestController
+@RequestMapping(value = "api/backstage/customer")
 public class CustomerController {
     @Resource
     private CustomerService customerService;
 
-    //执行前台（客户）注册页面d
+    //
 
-    @PostMapping(value = "api/shop/customer/savecustomer")
+    @PostMapping
+    @ApiOperation(value = "添加客户")
     public Map<String,Object> SaveCustomer(Customer customer) {
         Map<String,Object> map=new HashMap<String,Object>();
         if (customer.getPassword().length() == 0) {
@@ -28,7 +33,7 @@ public class CustomerController {
         } else if (customer.getUsername().length() == 0) {
             map.put("msg", "账号名不能为空");
         } else if(customerService.existsCustomer(customer.getUsername())==true){
-            if(customerService.SaveCustomer(customer)==true){
+            if(customerService.SaveCustomer(customer)){
                 map.put("code","1");
                 map.put("msg","用户注册成功,请登录！！！");
             }
@@ -39,26 +44,10 @@ public class CustomerController {
         return map;
     }
 
-    /*
-         * 用于判断前台登录
-         */
-
-    @GetMapping(value = "api/shop/customer/login")
-    public Map<String,Object> login(String username, String password, HttpSession session) {
-        Map<String,Object> map=new HashMap<String,Object>();
-        Customer customer=customerService.login(username, password);
-        if(customer!=null){
-            session.setAttribute("customer", customer);
-            map.put("code",1);//自定义值：code如果为1表示登录成功，如果为-1表示登录失败
-        }else{
-            map.put("code",-1);
-            map.put("msg", "登录失败:密码错误");
-        }
-        return map;
-    }
 
     //删除
-    @DeleteMapping(value = "api/backstage/customer/DeleteCustomer")
+    @ApiOperation(value = "删除客户")
+    @DeleteMapping
     public Map<String,Object> DeleteCustomer(Integer id) {
         Map<String,Object> map=new HashMap<String,Object>();
         customerService.deleteCustomer(id);
@@ -67,9 +56,9 @@ public class CustomerController {
     }
 
     //修改
-    //执行客户编辑操作
-    @PutMapping(value = "api/backstage/customer/doCustomerUpdate")
-    public Map<String,Object> doCustomerUpdate(Customer customer) {
+    @ApiOperation(value = "客户编辑")
+    @PutMapping
+    public Map<String,Object> CustomerUpdate(Customer customer) {
         Map<String,Object> map=new HashMap<String,Object>();
         customer.setName(customer.getName().trim());
         customer.setUsername(customer.getUsername().trim());
@@ -77,15 +66,16 @@ public class CustomerController {
             map.put("msg", "编辑失败：客户账号名不能为空！");
         } else if (customer.getName().equals("")) {
             map.put("msg", "编辑失败:客户名字不能为空！");
-        }  else {
+        }  else if(customerService.existsCustomer(customer.getName())==true){
             if (customerService.updateCustomer(customer)) {
                 map.put("code",1);
                 map.put("msg", "客户信息编辑成功！");
-            } else {
+            }
+        } else {
                 map.put("code",-1);
                 map.put("msg", "客户信息编辑失败！");
             }
-        }
+
         return map;
 
     }

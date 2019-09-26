@@ -16,6 +16,10 @@ public class AdminServiceImp implements AdminService {
     private AdminDao adminDao;
 //登录
     public Admin login(String username,String password){
+        if (password.length()!=32){
+            //将密码加密后再进行比对
+            password = SHA.getResult(password);
+        }
         Admin admin=adminDao.login(username, password);
         return admin;
     }

@@ -6,7 +6,6 @@ public class Product {
 
     private Integer id;
     private ProductType productType;//所属产品类别
-    private Integer productTypeId;//所属产品类别id
     private String name;//产品名称
     private Integer orderNum;//优先级
     private String description;//产品描述
@@ -35,14 +34,6 @@ public class Product {
 
     public void setProductType(ProductType productType) {
         this.productType = productType;
-    }
-
-    public Integer getProductTypeId() {
-        return productTypeId;
-    }
-
-    public void setProductTypeId(Integer productTypeId) {
-        this.productTypeId = productTypeId;
     }
 
     public String getName() {

@@ -9,6 +9,8 @@ public interface CustomerDao {
     /*前台注册*/
     int SaveCustomer(Customer customer);
 
+    /*前台注册*/
+    int SaveShopCustomer(Customer customer);
 
     /**
      * 查找在数据库中和指定用户名重名的个数

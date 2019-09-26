@@ -30,4 +30,6 @@
 		</set>
 		where id=#{id}
 	</update>
+	<!--修改密码-->
+
 </mapper>

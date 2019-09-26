@@ -6,7 +6,8 @@
 <mapper namespace="com.example.school_shopping.dao.ProductTypeDao">
 	<!--添加-->
 	<insert id="SaveProductType">
-		insert into producttype(id,name,image,intro,orderNum,createTime) values(null,#{name},#{image},#{intro},#{orderNum},#{createTime})
+		insert into producttype(id,name,image,intro,orderNum,createTime)
+		 values(null,#{name},#{image},#{intro},#{orderNum},#{createTime})
 	</insert>
 <!--重名-->
 	<select id="existsProductType" resultType="ProductType">

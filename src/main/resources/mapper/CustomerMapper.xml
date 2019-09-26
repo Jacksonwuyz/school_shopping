@@ -21,10 +21,10 @@
 	<delete id="deleteCustomer">
 		delete from customer where id=#{id}
 	</delete>
-	<!--修改-->
-	<!--<update id="updateCustomer">
-		update customer set username=#{username}, name=#{name},picUrl=#{picUrl},tel=#{tel},address=#{address},zip=#{zip}, email=#{email},intro=#{intro}where id=#{id}
-	</update>-->
+	<!--注册-->
+	<insert id="SaveShopCustomer">
+		insert into customer(id,username,name,password,picUrl,tel,address,zip,email,intro,createTime) values(null,#{username},#{name},#{password},#{picUrl},#{tel},#{address},#{zip},#{email},#{intro},#{createTime})
+	</insert>
 
 	<update id="updateCustomer">
 		update customer

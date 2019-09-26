@@ -2,24 +2,26 @@ package com.example.school_shopping.web;
 
 import com.example.school_shopping.model.ProductType;
 import com.example.school_shopping.service.ProductTypeService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
 //表示所有的请求都是@ResponseBody
+@Api(tags = "商品分类管理员模块")
 @RestController
+@RequestMapping(value = "api/backstage/producttype")
 public class ProductTypeController {
     @Resource
     private ProductTypeService productTypeService;
 
     //执行产品分类添加页面
 
-    @PostMapping(value = "api/backstage/producttype/SaveProductType")
+    @ApiOperation(value="产品分类添加")
+    @PostMapping
     public Map<String,Object> SaveProductType(ProductType productType) {
         Map<String,Object> map=new HashMap<String,Object>();
         productType.setName(productType.getName().trim());
@@ -41,7 +43,8 @@ public class ProductTypeController {
     }
 
     //执行产品分类编辑操作   修改
-    @PutMapping(value = "api/backstage/producttype/ProductTypeupdate")
+    @ApiOperation(value = "产品分类编辑")
+    @PutMapping
     public Map<String,Object> ProductTypeupdate(ProductType productType) {
         Map<String,Object> map=new HashMap<String,Object>();
         productType.setName(productType.getName().trim());
@@ -62,12 +65,13 @@ public class ProductTypeController {
 
     }
 
-    //执行删除产品分类操作
-    @DeleteMapping(value = "api/backstage/producttype/deleteProductType")
+    //执行操作
+    @ApiOperation(value = "删除产品分类")
+    @DeleteMapping
     public Map<String, Object> deleteProductType(Integer id) {
         Map<String, Object> map = new HashMap<String, Object>();
         productTypeService.deleteProductType(id);
-        map.put("status", 1);
+        map.put("codes", 1);
         return map;
     }
 

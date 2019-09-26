@@ -45,4 +45,10 @@ public interface CustomerService {
      */
     boolean updateCustomer(Customer customer);
 
+    /*
+    * 将账户信息存进数据库
+    * @param  producttype
+    * @return true表示保存成功，false表示保存失败
+    * */
+    boolean SaveShopCustomer(Customer customer) ;
 }

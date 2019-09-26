@@ -15,7 +15,7 @@ public class ProductServiceImp implements ProductService{
 
     public boolean SaveProduct(Product product) {
         boolean stsatus = false;
-        if (productDao.SaveProduct(product) == 1) {
+        if (productDao.SaveProduct(product) ==1) {
             stsatus = true;
         } else {
             stsatus = false;

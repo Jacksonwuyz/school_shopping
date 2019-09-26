@@ -35,6 +35,10 @@ public class CustomerServiceImp implements CustomerService {
     }
     //登录
     public Customer login(String username, String password) {
+        if (password.length()!=32){
+            //将密码加密后再进行比对
+            password = SHA.getResult(password);
+        }
         Customer customer = customerDao.login(username, password);
         return customer;
     }
@@ -60,4 +64,17 @@ public class CustomerServiceImp implements CustomerService {
 
         return status;
     }
+
+    public boolean SaveShopCustomer(Customer customer) {
+        boolean stsatus = false;//默认注册失败！
+     customer.setPassword(SHA.getResult(customer.getPassword()));
+        customer.setCreateTime(new Date());//系统当前时间为创建日期
+        if (customerDao.SaveShopCustomer(customer)==1){
+            stsatus= true;
+        }else {
+            stsatus= false;
+        }
+        return stsatus;
+    }
+
 }

@@ -7,8 +7,8 @@
 	<!--添加-->
 	<insert id="SaveProduct">
 		insert into
-		product(id,productTypeId,name,orderNum,description,content,price,originalPrice,picUrl,number,click,onSale,createTime,creatorId,finalEditorId,updateTime)
-		values(null,#{productTypeId},#{name},#{orderNum},#{description},#{content},#{price},#{originalPrice},#{picUrl},#{number},#{click},#{onSale},#{createTime},#{creatorId},#{finalEditorId},#{updateTime})
+		product(id,producttypeId,name,orderNum,price,originalPrice,picUrl,number,click,onSale)
+		values(null,#{producttypeId.id},#{name},#{orderNum},#{price},#{originalPrice},#{picUrl},#{number},#{click},#{onSale})
 	</insert>
 <!--重名-->
 	<select id="existsProduct" resultType="Product">

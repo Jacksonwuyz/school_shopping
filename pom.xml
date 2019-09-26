@@ -12,11 +12,13 @@
 	<artifactId>school_shopping</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>school_shopping</name>
+	<packaging>war</packaging>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
 		<java.version>1.8</java.version>
 		<mysql.version>5.1.2</mysql.version>
+		<swagger2.version>2.9.2</swagger2.version>
 	</properties>
 
 	<dependencies>
@@ -52,6 +54,18 @@
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>1.2.0</version>
+		</dependency>
+
+		<!--swagge可以用来生成RESTFUL接口的在线文档，也可以直接在文档中进行接口测试，代替Postman。-->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger2.version}</version>
 		</dependency>
 
 
