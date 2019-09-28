@@ -4,6 +4,9 @@
 例如namespace="com.cn.mybatis.test1.dao.userMapper"就是com.cn.mybatis.test1.dao(包名)+userMapper(userMapper.xml文件去除后缀)
  -->
 <mapper namespace="com.example.school_shopping.dao.ProductTypeDao">
+	<select id="getProductTypeList" resultType="ProductType">
+		select * from producttype order by id asc
+	</select>
 	<!--添加-->
 	<insert id="SaveProductType">
 		insert into producttype(id,name,image,intro,orderNum,createTime)
@@ -32,4 +35,7 @@
 		where id=#{id}
 	</update>
 
+	<select id="getPartlist" resultType="ProductType">
+		select * from producttype order by id asc limit #{offset},#{length}
+	</select>
 </mapper>

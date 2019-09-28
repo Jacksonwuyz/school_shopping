@@ -22,7 +22,23 @@ public class CustomerController {
     @Resource
     private CustomerService customerService;
 
-    //
+    ////跳转到客户模块页面
+    @GetMapping
+    @ApiOperation(value = "读取客户信息")
+    public Map<String,Object> tocustomer(Integer page) {
+        Map<String,Object> map=new HashMap<String,Object>();
+        if (page==null){//如果page为null，默认为第一页
+            page=1;
+        }else {
+            if (page<1){
+                page=1;
+            }
+        }
+        map.put("list", customerService.getCustomerList(page));//当前页显示的记录集合
+        map.put("page",page);//当前页
+
+        return map;
+    }
 
     @PostMapping
     @ApiOperation(value = "添加客户")

@@ -3,9 +3,17 @@ package com.example.school_shopping.service;
 import com.example.school_shopping.model.ProductType;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface ProductTypeService {
 
+    /**
+     * 返回所有的管理账户集合
+     *
+     * @return 以List方式返回
+     */
+    List<ProductType> getProductTypeList();
 
     /*
        * 将账户信息存进数据库
@@ -40,5 +48,12 @@ public interface ProductTypeService {
      * @return 返回重名的个数
      */
     boolean existsProductType(String name);
+
+
+    /*分页
+  * */
+    List<ProductType> getProductTypeList(Integer page);
+
+
 
 }

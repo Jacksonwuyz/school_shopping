@@ -3,6 +3,8 @@ package com.example.school_shopping.service;
 import com.example.school_shopping.model.Customer;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface CustomerService {
 
@@ -51,4 +53,16 @@ public interface CustomerService {
     * @return true表示保存成功，false表示保存失败
     * */
     boolean SaveShopCustomer(Customer customer) ;
+
+    /**
+     * 返回所有的管理账户集合
+     * @return 以List方式返回
+     */
+    List<Customer> getCustomerList();
+
+    /*分页
+ * */
+    List<Customer> getCustomerList(Integer page);
+
+    int maxPage();
 }

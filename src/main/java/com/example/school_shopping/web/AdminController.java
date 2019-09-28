@@ -4,10 +4,7 @@ import com.example.school_shopping.model.Admin;
 import com.example.school_shopping.service.AdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +20,22 @@ public class AdminController {
     @Resource
     private AdminService adminService;
 
+    @ApiOperation(value = "读取管理员账号信息")
+    @GetMapping
+    public Map<String,Object> toManageAdmin(Integer page){
+        Map<String,Object> map=new HashMap<String,Object>();
+        if (page==null){
+            page=1;
+        }else {
+            if (page<1){
+                page=1;
+            }
+        }
+        map.put("list",adminService.getAdminList());
+        map.put("list",adminService.getPartlist(page));
+        map.put("page",page);
+        return map;
+    }
 
     @ApiOperation(value = "执行删除管理员操作")
     @DeleteMapping

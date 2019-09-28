@@ -18,6 +18,23 @@ public class ProductTypeController {
     @Resource
     private ProductTypeService productTypeService;
 
+    @ApiOperation(value = "读取商品信息")
+    @GetMapping
+    public Map<String,Object> Producttype(Integer page) {
+        Map<String,Object> map=new HashMap<String,Object>();
+        if (page == null) {//如果page为null，默认为第一页
+            page = 1;
+        } else {
+            if (page < 1) {
+                page = 1;
+            }
+        }
+        map.put("list", productTypeService.getProductTypeList(page));//当前页显示的记录集合
+        map.put("page", page);//当前页
+        return map;
+    }
+
+
     //执行产品分类添加页面
 
     @ApiOperation(value="产品分类添加")

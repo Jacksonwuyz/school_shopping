@@ -3,8 +3,19 @@ package com.example.school_shopping.service;
 import com.example.school_shopping.model.Product;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface ProductService {
+
+
+    /**
+     * 返回所有的管理账户集合
+     *
+     * @return 以List方式返回
+     */
+    List<Product> getProductList();
+
 
     /*
       * 将账户信息存进数据库
@@ -41,5 +52,11 @@ public interface ProductService {
      * @return false表示修改失败，true表示修改成功
      */
     boolean updateProduct(Product product);
+
+    /*分页
+ * */
+    List<Product> getProductList(Integer page);
+
+    int maxPage();
 
 }

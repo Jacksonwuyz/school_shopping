@@ -3,6 +3,8 @@ package com.example.school_shopping.service;
 import com.example.school_shopping.model.Admin;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface AdminService {
 
@@ -45,4 +47,15 @@ public interface AdminService {
      * @return false表示修改失败，true表示修改成功
      */
     boolean updateAdmin(Admin admin);
+
+    /**
+     * 返回所有的管理账户集合
+     *
+     * @return 以List方式返回
+     */
+    List<Admin> getAdminList();
+
+    /*分页
+  * */
+    List<Admin> getPartlist(Integer page);
 }

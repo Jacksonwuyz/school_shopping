@@ -4,6 +4,11 @@
 例如namespace="com.cn.mybatis.test1.dao.userMapper"就是com.cn.mybatis.test1.dao(包名)+userMapper(userMapper.xml文件去除后缀)
  -->
 <mapper namespace="com.example.school_shopping.dao.CustomerDao">
+
+	<select id="getCustomerList" resultType="Customer">
+		select * from customer order by id asc
+	</select>
+
 	<!--添加-->
 	<insert id="SaveCustomer">
 		insert into customer(id,username,password,name,tel,address,zip,email,picUrl,intro,createTime) values(null,#{username},#{password},#{name},#{tel},#{address},#{zip},#{email},#{picUrl},#{intro},#{createTime})
@@ -44,5 +49,13 @@
 
 	<select id="getCustomer" resultType="Customer">
 		select * from customer where id=#{id}
+	</select>
+
+	<select id="total" resultType="int">
+		select count(id) from customer
+	</select>
+
+	<select id="getPartlist" resultType="Customer">
+		select * from customer order by id asc limit #{offset},#{length}
 	</select>
 </mapper>

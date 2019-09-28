@@ -23,6 +23,24 @@ public class ProductController {
     private ProductTypeService productTypeService;
 
 
+    //跳转到产品模块页面
+    @ApiOperation(value = "读取商品信息")
+   @GetMapping
+    public Map<String,Object> toProduct(Integer page) {
+        Map<String,Object> map=new HashMap<String,Object>();
+        if (page == null) {//如果page为null，默认为第一页
+            page = 1;
+        } else {
+            if (page < 1) {
+                page = 1;
+            }
+        }
+        map.put("list", productService.getProductList(page));//当前页显示的记录集合
+        map.put("page", page);//当前页
+        return map;
+    }
+
+
 //执行产品添加页面
 
     @ApiOperation(value = "产品添加")

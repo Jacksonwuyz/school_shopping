@@ -31,5 +31,12 @@
 		where id=#{id}
 	</update>
 	<!--修改密码-->
-
+<!--查询-->
+	<select id="getAdminList" resultType="Admin">
+		select * from admin  order by id asc
+	</select>
+<!--分页-->
+	<select id="getPartlist" resultType="Admin">
+		select * from admin order by id asc limit #{offset},#{length}
+	</select>
 </mapper>

@@ -3,8 +3,15 @@ package com.example.school_shopping.dao;
 import com.example.school_shopping.model.Customer;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface CustomerDao {
 
+    /**
+     * 返回所有的管理账户集合
+     * @return 以List方式返回
+     */
+    List<Customer> getCustomerList();
 
     /*前台注册*/
     int SaveCustomer(Customer customer);
@@ -39,10 +46,22 @@ public interface CustomerDao {
     int updateCustomer(Customer customer);
 
     /*
-       *  根据标识符获取相应的管理账户对象
-       *  @param id
-       *  @return null 表示没有找到
-       * */
+     *  根据标识符获取相应的管理账户对象
+     *  @param id
+     *  @return null 表示没有找到
+     * */
     Customer getCustomer(Integer id);
+
+ /*  * 分页显示数据库记录
+        *
+        * */
+
+    List<Customer> getPartlist(@Param(value = "offset")int offset,@Param(value = "length")int length);
+
+    /*
+          * 获取数据库总记录
+          *
+          * */
+    int total();
 
 }
