@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //表示所有的请求都是@ResponseBody
-@Api(tags = "后台登录注册模块")
+@Api(tags = "前台登录注册模块")
 @RestController
 @RequestMapping(value = "api/shop")
 public class ShopLoginController {

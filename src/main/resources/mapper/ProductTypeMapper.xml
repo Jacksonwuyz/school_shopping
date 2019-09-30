@@ -38,4 +38,8 @@
 	<select id="getPartlist" resultType="ProductType">
 		select * from producttype order by id asc limit #{offset},#{length}
 	</select>
+
+	<select id="getProductType" resultType="ProductType">
+		select * from producttype where id=#{id}
+	</select>
 </mapper>

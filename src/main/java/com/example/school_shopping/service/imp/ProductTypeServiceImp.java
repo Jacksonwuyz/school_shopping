@@ -73,6 +73,13 @@ public class ProductTypeServiceImp implements ProductTypeService{
         return productTypeDao.getPartlist(offset - 1, pagesize);//数据库记录位置从0数起）
     }
 
+    public ProductType getProductType(Integer id) {
+        ProductType productType = null;
+        if (id != null) {
+            productType = productTypeDao.getProductType(id);
+        }
+        return productType;
+    }
 
 
 }

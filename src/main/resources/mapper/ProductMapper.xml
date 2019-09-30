@@ -4,14 +4,19 @@
 例如namespace="com.cn.mybatis.test1.dao.userMapper"就是com.cn.mybatis.test1.dao(包名)+userMapper(userMapper.xml文件去除后缀)
  -->
 <mapper namespace="com.example.school_shopping.dao.ProductDao">
-	<select id="getProductList" resultMap="Product" >
+	<resultMap id="product" type="Product">
+		<association property="productType" javaType="ProductType" column="ProductTypeId" select="com.example.school_shopping.dao.ProductTypeDao.getProductType">
+		</association>
+
+	</resultMap>
+	<select id="getProductList" resultMap="product" >
 		select * from product order by id asc
 	</select>
 	<!--添加-->
 	<insert id="SaveProduct">
 		insert into
-		product(id,producttypeId,name,orderNum,price,originalPrice,picUrl,number,click,onSale)
-		values(null,#{producttypeId.id},#{name},#{orderNum},#{price},#{originalPrice},#{picUrl},#{number},#{click},#{onSale})
+		product(id,productTypeId,name,orderNum,price,originalPrice,picUrl,number,click,onSale)
+		values(null,#{productTypeId},#{name},#{orderNum},#{price},#{originalPrice},#{picUrl},#{number},#{click},#{onSale})
 	</insert>
 <!--重名-->
 	<select id="existsProduct" resultType="Product">
@@ -44,8 +49,7 @@
 	<select id="total" resultType="int">
 		select count(id) from Product
 	</select>
-
-	<select id="getPartlist" resultMap="Product">
+	<select id="getPartlist" resultMap="product">
 		select * from product order by id asc limit #{offset},#{length}
 	</select>
 </mapper>

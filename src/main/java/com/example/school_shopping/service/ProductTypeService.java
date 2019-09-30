@@ -54,6 +54,11 @@ public interface ProductTypeService {
   * */
     List<ProductType> getProductTypeList(Integer page);
 
-
+    /*
+       *  根据标识符获取相应的管理账户对象
+       *  @param id
+       *  @return null 表示没有找到
+       * */
+    ProductType getProductType(Integer id);
 
 }
