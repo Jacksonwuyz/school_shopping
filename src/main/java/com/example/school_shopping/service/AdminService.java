@@ -17,7 +17,7 @@ public interface AdminService {
      * 查找在数据库中和指定用户名重名的个数
      *
      * @param username
-     * @param id
+     * @param
      * @return 返回重名的个数
      */
     boolean existsAdmin(String username);
@@ -58,4 +58,11 @@ public interface AdminService {
     /*分页
   * */
     List<Admin> getPartlist(Integer page);
+
+    /*
+	 * 将新密码保存到数据库中
+	 * @return true表示密码更改成功，false表示密码更改失败
+	 */
+
+    boolean updatePassword(String newPass, Integer id);
 }

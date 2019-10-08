@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,9 +22,11 @@ public class LoginController {
     //
     @ApiOperation(value = "后台登录")
     @GetMapping(value = "/login")
-    public Map<String,Object> Login(String username,String password){
+    public Map<String,Object> Login(String username,String password,HttpSession session){
         Map<String,Object> map=new HashMap<String,Object>();
+        Admin admin=adminService.login(username,password);
         if (adminService.login(username, password)!=null){
+            session.setAttribute("admin", admin);
             map.put("code",1);//自定义值：code如果为1表示登录成功，如果为-1表示登录失败
         }else {
             map.put("code",-1);
@@ -59,27 +62,7 @@ public class LoginController {
         return map;
     }
 
-    //修改密码
 
-//    @RequestMapping(value = "/backstage/admin/doUpdatePassword", method = RequestMethod.POST)
-//    public String doUpdatePassword(String oldPass,String newPass,String confirmPass,HttpSession session
-//            ,HttpServletRequest request){
-//        Admin admin=(Admin)session.getAttribute("admin");
-//        if(adminService.login(admin.getUsername(), oldPass)!=null){//如果原密码正确
-//            if (newPass.equals("")){
-//                request.setAttribute("myMessage", "密码修改失败：新密码不能为空！");
-//            } else if(newPass.equals(confirmPass)){//如果新密码和确认密码相同
-//                //保存新密码
-//                adminService.updatePassword(newPass, admin.getId());
-//                request.setAttribute("myMessage", "密码修改成功！");
-//            }else{//如果不相同
-//                request.setAttribute("myMessage", "密码修改失败：新密码和确认密码不一致");
-//            }
-//        }else{//如果原密码错误
-//            request.setAttribute("myMessage", "密码修改失败：原密码不正确");
-//        }
-//        return "/jsp/backstage/admin/passwordupdate.jsp";
-//    }
 
 
 }

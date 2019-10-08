@@ -94,4 +94,18 @@ public class AdminServiceImp implements AdminService {
 
         return adminDao.getPartlist(offset - 1, pagesize);//数据库记录位置从0数起）
     }
+//修改密码
+    public boolean updatePassword(String newPass, Integer id) {
+        Boolean status = false;//默认编辑失败
+        newPass = SHA.getResult(newPass);
+        Admin admin = new Admin();
+        admin.setId(id);
+        admin.setPassword(newPass);
+        if (adminDao.updateAdmin(admin) ==1) {
+            status = true;
+        }else {
+            status = false;
+        }
+        return status;
+    }
 }

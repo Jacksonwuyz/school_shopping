@@ -52,7 +52,6 @@ public class AdminController {
     @PutMapping
     public Map<String,Object> UpdateAdmin(Admin admin,HttpSession session){
         Map<String,Object> map=new HashMap<String,Object>();
-
         if (admin.getUsername().equals("")){
             map.put("msg","账户名不能为空！");
         }else if (admin.getName().equals("")){
@@ -73,4 +72,29 @@ public class AdminController {
         }
         return map;
     }
+
+    //修改密码
+    @ApiOperation(value = "修改密码")
+    @PutMapping("/updatePassword")
+   public Map<String,Object> UpdatePassword(String oldPass,String newPass,String confirmPass,HttpSession session){
+        Map<String,Object> map=new HashMap<String,Object>();
+       Admin admin=(Admin)session.getAttribute("admin");
+        if(adminService.login(admin.getUsername(), oldPass)!=null){//如果原密码正确
+           if (newPass.equals("")){
+               map.put("msg", "密码修改失败：新密码不能为空！");
+            } else if(newPass.equals(confirmPass)){//如果新密码和确认密码相同
+               //保存新密码
+               map.put("code",1);
+               adminService.updatePassword(newPass, admin.getId());
+               map.put("msg", "密码修改成功！");
+            }else{//如果不相同
+               map.put("code",-1);
+               map.put("msg", "密码修改失败：新密码和确认密码不一致");
+           }
+        }else{//如果原密码错误
+            map.put("code",-1);
+            map.put("msg", "密码修改失败：原密码不正确");
+        }
+        return map;
+   }
 }
