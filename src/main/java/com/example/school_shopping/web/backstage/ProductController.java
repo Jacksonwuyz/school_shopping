@@ -1,4 +1,4 @@
-package com.example.school_shopping.web;
+package com.example.school_shopping.web.backstage;
 
 import com.example.school_shopping.dao.ProductDao;
 import com.example.school_shopping.model.Product;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //表示所有的请求都是@ResponseBody
-@Api(tags = "商品管理员模块")
+@Api(tags = "后台商品模块")
 @RestController
 @RequestMapping(value = "api/backstage/product")
 public class ProductController {
@@ -35,8 +35,9 @@ public class ProductController {
                 page = 1;
             }
         }
-        map.put("list", productService.getProductList(page));//当前页显示的记录集合
+        map.put("data", productService.getProductList(page));//当前页显示的记录集合
         map.put("page", page);//当前页
+        map.put("code",0);
         return map;
     }
 
@@ -63,11 +64,11 @@ public class ProductController {
         }*/ else if(productService.existsProduct(product.getName())==true){
             if (productService.SaveProduct(product)) {
                 map.put("product", null);
-                map.put("code", 1);
+                map.put("code", 0);
                 map.put("msg", "产品添加成功！！！");
               }
         } else {
-            map.put("code", -1);
+            map.put("code", 1);
             map.put("msg", "重名，产品添加失败！！！");
 
          }
@@ -81,7 +82,8 @@ public class ProductController {
     public Map<String, Object> DeleteProduct(Integer id) {
         Map<String,Object> map=new HashMap<String,Object>();
         productService.deleteProduct(id);
-        map.put("code", 1);
+        map.put("code", 0);
+        map.put("msg", "删除成功！！！");
         return map;
     }
 
@@ -105,11 +107,11 @@ public class ProductController {
             map.put("msg", "产品分类编辑:产品是否上架不能为空");
         } else  if(productService.existsProduct(product.getName())==true){
             if (productService.updateProduct(product)==true) {
-                map.put("code", 1);
+                map.put("code", 0);
                 map.put("msg", "产品分类信息编辑成功！");
             }
         }else {
-                map.put("code", -1);
+                map.put("code", 1);
                 map.put("msg", "重名,产品分类信息编辑失败！");
             }
 

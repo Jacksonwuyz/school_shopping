@@ -59,4 +59,5 @@ public interface ProductService {
 
     int maxPage();
 
+
 }

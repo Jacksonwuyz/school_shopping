@@ -65,4 +65,11 @@ public interface CustomerService {
     List<Customer> getCustomerList(Integer page);
 
     int maxPage();
+
+     /*
+	 * 将新密码保存到数据库中
+	 * @return true表示密码更改成功，false表示密码更改失败
+	 */
+
+    boolean updatePassword(String newPass, Integer id);
 }

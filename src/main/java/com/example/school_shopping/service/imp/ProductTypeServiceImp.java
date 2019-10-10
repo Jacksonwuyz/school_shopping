@@ -81,5 +81,7 @@ public class ProductTypeServiceImp implements ProductTypeService{
         return productType;
     }
 
-
+    public List<ProductType> getProductTypeShopList(){
+        return  productTypeDao.getProductTypeShopList();
+    }
 }

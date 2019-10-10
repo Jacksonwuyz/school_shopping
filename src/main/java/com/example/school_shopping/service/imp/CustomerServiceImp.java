@@ -1,6 +1,7 @@
 package com.example.school_shopping.service.imp;
 
 import com.example.school_shopping.dao.CustomerDao;
+import com.example.school_shopping.model.Admin;
 import com.example.school_shopping.model.Customer;
 import com.example.school_shopping.service.CustomerService;
 import com.example.school_shopping.util.SHA;
@@ -110,4 +111,20 @@ public class CustomerServiceImp implements CustomerService {
         }
         return  maxPage;
     }
+
+    //修改密码
+    public boolean updatePassword(String newPass, Integer id) {
+        Boolean status = false;//默认编辑失败
+        newPass = SHA.getResult(newPass);
+        Customer customer = new Customer();
+        customer.setId(id);
+        customer.setPassword(newPass);
+        if (customerDao.updateCustomer(customer) ==1) {
+            status = true;
+        }else {
+            status = false;
+        }
+        return status;
+    }
+
 }

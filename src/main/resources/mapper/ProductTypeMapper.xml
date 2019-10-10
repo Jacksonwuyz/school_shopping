@@ -42,4 +42,8 @@
 	<select id="getProductType" resultType="ProductType">
 		select * from producttype where id=#{id}
 	</select>
+	<!--获取前台产品分类列表-->
+	<select id="getProductShopPirceList" resultType="ProductType">
+		select * from producttype
+	</select>
 </mapper>

@@ -51,4 +51,9 @@ public interface ProductTypeDao {
        * */
     ProductType getProductType(int id);
 
+    /*
+   *
+   * 获取产品分类列表
+   * */
+    List<ProductType> getProductTypeShopList();
 }

@@ -61,4 +61,8 @@ public interface ProductTypeService {
        * */
     ProductType getProductType(Integer id);
 
+    /*
+     * 获取产品分类列表
+     * */
+    List<ProductType> getProductTypeShopList();
 }

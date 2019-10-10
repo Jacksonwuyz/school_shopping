@@ -39,10 +39,10 @@ public interface ProductDao {
      */
     Product existsProduct(@Param(value = "name") String name);
     /*
-          *  根据标识符获取相应的管理账户对象
-          *  @param id
-          *  @return null 表示没有找到
-          * */
+      *  根据标识符获取相应的管理账户对象
+       *  @param id
+       *  @return null 表示没有找到
+       * */
     Product getProduct(int id);
        /*
         * 分页显示数据库记录
@@ -56,6 +56,9 @@ public interface ProductDao {
        *
        * */
     int total();
-
-
+    /*
+        *
+        * 获取订单
+        * */
+    List<Product> getProductList(Integer pageSize);
 }

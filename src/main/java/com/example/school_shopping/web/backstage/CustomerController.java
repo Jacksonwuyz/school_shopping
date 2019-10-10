@@ -1,4 +1,4 @@
-package com.example.school_shopping.web;
+package com.example.school_shopping.web.backstage;
 
 import com.example.school_shopping.model.Customer;
 import com.example.school_shopping.service.CustomerService;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 //表示所有的请求都是@ResponseBody
-@Api(tags = "客户模块")
+@Api(tags = "后台客户模块")
 @RestController
 @RequestMapping(value = "api/backstage/customer")
 public class CustomerController {
@@ -34,9 +34,9 @@ public class CustomerController {
                 page=1;
             }
         }
-        map.put("list", customerService.getCustomerList(page));//当前页显示的记录集合
+        map.put("data", customerService.getCustomerList(page));//当前页显示的记录集合
         map.put("page",page);//当前页
-
+        map.put("code",0);
         return map;
     }
 
@@ -50,12 +50,12 @@ public class CustomerController {
             map.put("msg", "账号名不能为空");
         } else if(customerService.existsCustomer(customer.getUsername())==true){
             if(customerService.SaveCustomer(customer)){
-                map.put("code","1");
+                map.put("code","0");
                 map.put("msg","用户注册成功,请登录！！！");
             }
         }else{
             map.put("msg","用户注册重名，请重试！！！");
-            map.put("code","-1");
+            map.put("code","1");
         }
         return map;
     }
@@ -67,7 +67,8 @@ public class CustomerController {
     public Map<String,Object> DeleteCustomer(Integer id) {
         Map<String,Object> map=new HashMap<String,Object>();
         customerService.deleteCustomer(id);
-        map.put("code",1);
+        map.put("code",0);
+        map.put("msg", "删除成功！！！");
         return map;
     }
 
@@ -84,11 +85,11 @@ public class CustomerController {
             map.put("msg", "编辑失败:客户名字不能为空！");
         }  else if(customerService.existsCustomer(customer.getName())==true){
             if (customerService.updateCustomer(customer)) {
-                map.put("code",1);
+                map.put("code",0);
                 map.put("msg", "客户信息编辑成功！");
             }
         } else {
-                map.put("code",-1);
+                map.put("code",1);
                 map.put("msg", "客户信息编辑失败！");
             }
 

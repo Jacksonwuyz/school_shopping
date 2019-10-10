@@ -1,8 +1,10 @@
-package com.example.school_shopping.web;
+package com.example.school_shopping.web.backstage;
 
 import com.example.school_shopping.model.Admin;
 import com.example.school_shopping.service.AdminService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +33,9 @@ public class AdminController {
                 page=1;
             }
         }
-        map.put("list",adminService.getAdminList());
-        map.put("list",adminService.getPartlist(page));
+        map.put("data",adminService.getAdminList());
+        map.put("page",adminService.getPartlist(page));
+        map.put("code",0);
         map.put("page",page);
         return map;
     }
@@ -43,7 +46,8 @@ public class AdminController {
         Map<String,Object> map=new HashMap<String,Object>();
         Admin admin=(Admin)session.getAttribute("admin");
         adminService.deleteAdmin(id,admin.getId());
-        map.put("status",1);
+        map.put("code",0);
+        map.put("msg", "删除成功！！！");
         return map;
     }
 
@@ -61,10 +65,10 @@ public class AdminController {
         }
         else {
             if(adminService.updateAdmin(admin)){
-                map.put("code",1);
+                map.put("code",0);
                 map.put("msg","基本信息修改成功！");
             }else{
-                map.put("code",-1);
+                map.put("code",1);
                 map.put("msg", "基本信息修改失败！");
             }
 
@@ -75,6 +79,11 @@ public class AdminController {
 
     //修改密码
     @ApiOperation(value = "修改密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "oldPass", value = "原密码"),
+            @ApiImplicitParam(name = "newPass", value = "新密码"),
+            @ApiImplicitParam(name = "confirmPass", value = "确认密码")
+    })
     @PutMapping("/updatePassword")
    public Map<String,Object> UpdatePassword(String oldPass,String newPass,String confirmPass,HttpSession session){
         Map<String,Object> map=new HashMap<String,Object>();
@@ -84,15 +93,15 @@ public class AdminController {
                map.put("msg", "密码修改失败：新密码不能为空！");
             } else if(newPass.equals(confirmPass)){//如果新密码和确认密码相同
                //保存新密码
-               map.put("code",1);
+               map.put("code",0);
                adminService.updatePassword(newPass, admin.getId());
                map.put("msg", "密码修改成功！");
             }else{//如果不相同
-               map.put("code",-1);
+               map.put("code",1);
                map.put("msg", "密码修改失败：新密码和确认密码不一致");
            }
         }else{//如果原密码错误
-            map.put("code",-1);
+            map.put("code",1);
             map.put("msg", "密码修改失败：原密码不正确");
         }
         return map;
