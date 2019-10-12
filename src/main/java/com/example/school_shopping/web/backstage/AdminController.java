@@ -22,10 +22,11 @@ public class AdminController {
     @Resource
     private AdminService adminService;
 
-    @ApiOperation(value = "读取管理员账号信息")
+    @ApiOperation(value = "读取全部管理员账号信息")
     @GetMapping
-    public Map<String,Object> toManageAdmin(Integer page){
+    public Map<String,Object> toManageAdmin(HttpSession session,Integer page){
         Map<String,Object> map=new HashMap<String,Object>();
+        Admin admin=(Admin)session.getAttribute("admin");
         if (page==null){
             page=1;
         }else {
@@ -56,6 +57,7 @@ public class AdminController {
     @PutMapping
     public Map<String,Object> UpdateAdmin(Admin admin,HttpSession session){
         Map<String,Object> map=new HashMap<String,Object>();
+
         if (admin.getUsername().equals("")){
             map.put("msg","账户名不能为空！");
         }else if (admin.getName().equals("")){
@@ -106,4 +108,31 @@ public class AdminController {
         }
         return map;
    }
+
+
+    //执行管理员（后台）添加页面
+
+    @ApiOperation(value = "后台管理员添加")
+    @PostMapping("/addAdmin")
+    public Map<String,Object> doSaveAdmin(Admin admin){
+        Map<String,Object> map=new HashMap<String,Object>();
+        admin.setUsername(admin.getUsername().trim());
+       admin.setName(admin.getName().trim());
+        if(admin.getUsername().length()==0){
+            map.put("msg","账户添加失败:账户名不能为空");
+        }else if(admin.getName().length()==0){
+            map.put("msg","账户添加失败:网名不能为空");
+        }else if(admin.getPassword().length()==0){
+            map.put("msg","账户添加失败:密码不能为空");
+        }else if(adminService.existsAdmin(admin.getUsername())==true){
+            if(adminService.saveAdmin(admin)==true){
+                map.put("code","0");
+                map.put("msg","账户添加成功");
+            }
+        }else{
+            map.put("msg","账户添加失败:重名");
+            map.put("code","1");
+        }
+        return map;
+    }
 }

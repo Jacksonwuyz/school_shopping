@@ -61,4 +61,11 @@ public interface ProductDao {
         * 获取订单
         * */
     List<Product> getProductList(Integer pageSize);
+
+
+    /*
+      *
+      * 获取产品
+      * */
+    List<Product> getShopProductTypelist(Integer productTypeId);
 }

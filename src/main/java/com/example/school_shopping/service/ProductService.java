@@ -59,5 +59,10 @@ public interface ProductService {
 
     int maxPage();
 
+    /*
+      *
+      * 获取前台分类产品
+      * */
+    List<Product> getShopProductTypelist(Integer productTypeId);
 
 }

@@ -59,18 +59,18 @@ public class LoginController {
 //        admin.setUsername(admin.getUsername().trim());
 //        admin.setName(admin.getName().trim());
         if(admin.getUsername().length()==0){
-            map.put("msg","账户添加失败:账户名不能为空");
+            map.put("msg","账户注册失败:账户名不能为空");
         }else if(admin.getName().length()==0){
-            map.put("msg","账户添加失败:网名不能为空");
+            map.put("msg","账户注册失败:网名不能为空");
         }else if(admin.getPassword().length()==0){
-            map.put("msg","账户添加失败:密码不能为空");
+            map.put("msg","账户注册失败:密码不能为空");
         }else if(adminService.existsAdmin(admin.getUsername())==true){
             if(adminService.saveAdmin(admin)==true){
                 map.put("code","0");
-                map.put("msg","账户添加成功");
+                map.put("msg","账户注册成功");
             }
         }else{
-            map.put("msg","账户添加失败:重名");
+            map.put("msg","账户注册失败:重名");
             map.put("code","1");
         }
         return map;

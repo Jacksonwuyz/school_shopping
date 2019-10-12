@@ -84,6 +84,10 @@ public class ProductServiceImp implements ProductService{
         return  maxPage;
     }
 
+    @Override
+    public List<Product> getShopProductTypelist(Integer productTypeId) {
 
+        return productDao.getShopProductTypelist(productTypeId);
+    }
 
 }

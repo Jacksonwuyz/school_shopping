@@ -25,8 +25,9 @@ public class CustomerController {
     ////跳转到客户模块页面
     @GetMapping
     @ApiOperation(value = "读取客户信息")
-    public Map<String,Object> tocustomer(Integer page) {
+    public Map<String,Object> tocustomer(HttpSession session,Integer page) {
         Map<String,Object> map=new HashMap<String,Object>();
+        Customer customer=(Customer)session.getAttribute("customer");
         if (page==null){//如果page为null，默认为第一页
             page=1;
         }else {
@@ -42,8 +43,9 @@ public class CustomerController {
 
     @PostMapping
     @ApiOperation(value = "添加客户")
-    public Map<String,Object> SaveCustomer(Customer customer) {
+    public Map<String,Object> SaveCustomer(HttpSession session,Customer customer) {
         Map<String,Object> map=new HashMap<String,Object>();
+        Customer customer1=(Customer)session.getAttribute("customer1");
         if (customer.getPassword().length() == 0) {
             map.put("msg", "账号密码不能为空!");
         } else if (customer.getUsername().length() == 0) {
@@ -51,10 +53,10 @@ public class CustomerController {
         } else if(customerService.existsCustomer(customer.getUsername())==true){
             if(customerService.SaveCustomer(customer)){
                 map.put("code","0");
-                map.put("msg","用户注册成功,请登录！！！");
+                map.put("msg","用户添加成功,请登录！！！");
             }
         }else{
-            map.put("msg","用户注册重名，请重试！！！");
+            map.put("msg","用户添加重名，请重试！！！");
             map.put("code","1");
         }
         return map;
@@ -64,8 +66,9 @@ public class CustomerController {
     //删除
     @ApiOperation(value = "删除客户")
     @DeleteMapping
-    public Map<String,Object> DeleteCustomer(Integer id) {
+    public Map<String,Object> DeleteCustomer(HttpSession session,Integer id) {
         Map<String,Object> map=new HashMap<String,Object>();
+        Customer customer=(Customer)session.getAttribute("customer");
         customerService.deleteCustomer(id);
         map.put("code",0);
         map.put("msg", "删除成功！！！");
@@ -75,7 +78,7 @@ public class CustomerController {
     //修改
     @ApiOperation(value = "客户编辑")
     @PutMapping
-    public Map<String,Object> CustomerUpdate(Customer customer) {
+    public Map<String,Object> CustomerUpdate(HttpSession session,Customer customer) {
         Map<String,Object> map=new HashMap<String,Object>();
         customer.setName(customer.getName().trim());
         customer.setUsername(customer.getUsername().trim());

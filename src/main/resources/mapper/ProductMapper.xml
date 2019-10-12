@@ -30,7 +30,7 @@
 	<update id="updateProduct">
 		update product
 		<set>
-			<if test="productType!=null and productType.id!=null">productTypeId=#{productType.id},</if>
+			<if test="productType!=null and producttype.id!=null">productTypeId=#{producttype.id},</if>
 			<if test="name!=null and name.length()>0">name=#{name},</if>
 			<if test="orderNum!=null">orderNum=#{orderNum},</if>
 			<if test="description!=null">description=#{description},</if>
@@ -51,6 +51,10 @@
 	</select>
 	<select id="getPartlist" resultMap="product">
 		select * from product order by id asc limit #{offset},#{length}
+	</select>
+
+	<select id="getShopProductTypelist" resultMap="product">
+		select * from product where productTypeId=#{producttype.id}
 	</select>
 
 </mapper>

@@ -38,7 +38,6 @@ public class AdminServiceImp implements AdminService {
 //注册
     public boolean saveAdmin(Admin admin) {
         boolean stsatus = false;
-        admin.setPassword(SHA.getResult("123456"));
         admin.setCreateTime(new Date());//系统当前时间为创建日期
         if (adminDao.saveAdmin(admin)>0) {
             stsatus = true;
