@@ -134,4 +134,15 @@ public class AdminController {
         }
         return map;
     }
+
+    @ApiOperation(value = "读取指定账户", notes = "根据id的值读取指定账户")
+    @ApiImplicitParam(name = "id", value = "要读取的账户id", paramType = "path",dataType="int", required = true,example="1")
+    @GetMapping("/{id}")
+    public Map<String, Object>  getAdmin(@PathVariable Integer id){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("code", 0);
+        map.put("data",adminService.getAdmin(id));
+        return map;
+    }
+
 }

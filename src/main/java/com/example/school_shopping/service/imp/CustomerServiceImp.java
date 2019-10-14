@@ -134,5 +134,17 @@ public class CustomerServiceImp implements CustomerService {
         }
         return customer;
     }
+    @Override
+    public void deleteCustomers(Integer[] ids){
+        for(Integer id:ids){
+            //删除账户对应的图片
+            Customer customer=customerDao.getCustomer(id);//读取相应的记录
+            String picUrl=customer.getPicUrl();//获取头像地址
+           /* if(!StringUtils.isEmpty(picUrl)){//如果头像存在
+                throw new MyServiceException("账户删除失败：请先删除头像，再执行账户删除");
+            }*/
+        }
+        customerDao.deletes(ids);
+    }
 
 }

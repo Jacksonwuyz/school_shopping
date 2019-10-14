@@ -3,6 +3,7 @@ package com.example.school_shopping.web.backstage;
 import com.example.school_shopping.model.ProductType;
 import com.example.school_shopping.service.ProductTypeService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -94,5 +95,14 @@ public class ProductTypeController {
         return map;
     }
 
-
+    @ApiOperation(value = "批量删除产品分类栏目信息", notes = "根据id的值删除产品栏目信息")
+    @ApiImplicitParam(name = "ids", value = "要删除的产品栏目id集合", required = true,paramType = "path",example ="15,25,74" )
+    @DeleteMapping("/{ids}")
+    public  Map<String, Object> DeleteProductTypes(@PathVariable("ids")Integer[] ids){
+        Map<String, Object> map=new HashMap<String, Object>();
+        productTypeService.deleteProductTypes(ids);
+        map.put("codes", 0);
+        map.put("msg", "删除成功！！！");
+        return map;
+    }
 }

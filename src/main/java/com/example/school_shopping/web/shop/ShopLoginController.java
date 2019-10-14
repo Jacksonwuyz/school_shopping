@@ -117,6 +117,14 @@ public class ShopLoginController {
         map.put("msg", "成功注销用户");
         return map;
     }
-
+    @ApiOperation(value = "读取指定客户信息", notes = "根据id的值读取指定客户信息")
+    @ApiImplicitParam(name = "id", value = "要读取的账户id", paramType = "path", required = true,example="1")
+    @GetMapping("/{id}")
+    public Map<String, Object>  getCustomer(@PathVariable Integer id){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("code", 0);
+        map.put("data",customerService.getCustomer(id));
+        return map;
+    }
 
 }

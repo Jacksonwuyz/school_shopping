@@ -107,4 +107,13 @@ public class AdminServiceImp implements AdminService {
         }
         return status;
     }
+    @Override
+    public Admin getAdmin(Integer id) {
+        Admin admin=null;
+        if(id!=null){
+            admin=adminDao.getAdmin(id);
+        }
+        return admin;
+    }
+
 }

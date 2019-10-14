@@ -63,5 +63,10 @@ public interface CustomerDao {
           *
           * */
     int total();
-
+    /**
+     * 根据标志符集合删除对应的记录信息集合
+     * @param ids id集合
+     * @return  删除的记录数，>=1表示删除成功，0表示删除失败
+     */
+    int deletes(Integer[] ids);
 }

@@ -79,4 +79,13 @@ public interface CustomerService {
      * @return
      */
     Customer getCustomer(Integer id);
+
+    /**
+     * 批量删除指定账户
+     * 说明：
+     * 1.如果客户存在头像文件，则不允许删除
+     * @param ids 多个账户的主键集合
+     * @throws MyWebException
+     */
+    void deleteCustomers(Integer[] ids);
 }

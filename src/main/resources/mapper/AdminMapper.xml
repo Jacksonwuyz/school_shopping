@@ -39,4 +39,15 @@
 	<select id="getPartlist" resultType="Admin">
 		select * from admin order by id asc limit #{offset},#{length}
 	</select>
+	<select id="getAdmin"  resultType="Admin">
+		select * from admin where id=#{id}
+	</select>
+	<!--批量删除-->
+	<delete id="deletes" >
+		delete from admin where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
 </mapper>

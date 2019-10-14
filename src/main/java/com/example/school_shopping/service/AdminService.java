@@ -65,4 +65,21 @@ public interface AdminService {
 	 */
 
     boolean updatePassword(String newPass, Integer id);
+
+    /**
+     * 根据id读取对象
+     * @param id
+     * @return
+     */
+    Admin getAdmin(Integer id);
+    /**
+     * 批量删除指定账户
+     * 说明：
+     * 1.不能自己删除自己
+     * 2.如果该账户参与过网站管理则不允许删除
+     * （1）发表、编辑过产品
+     * @param admin 执行删除的管理员账户
+     * @param ids 多个账户的主键集合
+     */
+   /* void deleteAdmins(Admin admin,Integer[] ids);*/
 }

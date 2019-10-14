@@ -58,4 +58,11 @@
 	<select id="getPartlist" resultType="Customer">
 		select * from customer order by id asc limit #{offset},#{length}
 	</select>
+	<!--批量删除-->
+	<delete id="deletes" >
+		delete from customer where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>

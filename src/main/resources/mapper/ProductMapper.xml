@@ -57,6 +57,17 @@
 		select * from product where productTypeId=#{producttype.id}
 	</select>
 
+	<select id="getProduct"  resultType="Product">
+		select * from product where id=#{id}
+	</select>
+	<!--批量删除-->
+	<delete id="deletes" >
+		delete from product where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
 	<select id="querySize" resultType="int">
 		select count(1) from product
 		<if test="objectQuery!=null">

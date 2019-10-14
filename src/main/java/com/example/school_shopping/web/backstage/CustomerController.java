@@ -99,14 +99,15 @@ public class CustomerController {
 
         return map;
     }
-
-    @ApiOperation(value = "读取指定客户信息", notes = "根据id的值读取指定客户信息")
-    @ApiImplicitParam(name = "id", value = "要读取的账户id", paramType = "path", required = true,example="1")
-    @GetMapping("/{id}")
-    public Map<String, Object>  getCustomer(@PathVariable Integer id){
+    @ApiOperation(value = "批量删除客户信息", notes = "根据id的值删除客户信息")
+    @ApiImplicitParam(name = "ids", value = "要删除的客户id集合", required = true,paramType = "path",example ="15,25,74" )
+    @DeleteMapping("/{ids}")
+    public Map<String, Object> deleteCustomers(@PathVariable("ids")Integer[] ids){
         Map<String, Object> map=new HashMap<String, Object>();
-        map.put("code", 0);
-        map.put("data",customerService.getCustomer(id));
+        map.put("code",0);
+        map.put("msg", "删除成功！！！");
+        customerService.deleteCustomers(ids);
         return map;
     }
+
 }

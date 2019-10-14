@@ -65,4 +65,12 @@ public interface ProductTypeService {
      * 获取产品分类列表
      * */
     List<ProductType> getProductTypeShopList();
+
+    /**
+     * 批量删除指定产品
+     * 说明：
+     * 1.如果产品存在订单则不允许删除
+     * @param ids 多个产品的主键集合
+     */
+    void deleteProductTypes(Integer[] ids);
 }

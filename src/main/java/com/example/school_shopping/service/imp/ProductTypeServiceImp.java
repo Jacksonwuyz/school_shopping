@@ -84,4 +84,28 @@ public class ProductTypeServiceImp implements ProductTypeService{
     public List<ProductType> getProductTypeShopList(){
         return  productTypeDao.getProductTypeShopList();
     }
+
+    public void deleteProductTypes(Integer[] ids) {
+       /* for(Integer id:ids){
+            //删除账户对应的图片
+            ProductType productType=productTypeDao.getProductType(id);//读取相应的记录
+            if(productType!=null){
+                //获取栏目下产品数量
+                ProductQuery productQuery=new ProductQuery();
+                productQuery.setProductType(productType);
+                int number=productDao.querySize(productQuery);
+                if(number>0){
+                    throw new MyServiceException("栏目批量删除失败：栏目（name)下有number个产品"
+                            .replace("name",productType.getName())
+                            .replace("number",String.valueOf(number)));
+                }
+                String imageUrl=productType.getImageUrl();//获取图片地址
+                if(!StringUtils.isEmpty(imageUrl)){//如果图片地址存在
+                    MyFileOperator.deleteFile(basePath+ Constant.PRODUCTTYPE_PICTURE_UPLOAD_URL+imageUrl);//删除图片
+                }
+            }
+        }*/
+        productTypeDao.deletes(ids);
+    }
+
 }

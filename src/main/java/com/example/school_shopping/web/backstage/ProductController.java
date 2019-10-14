@@ -5,6 +5,7 @@ import com.example.school_shopping.model.Product;
 import com.example.school_shopping.service.ProductService;
 import com.example.school_shopping.service.ProductTypeService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -118,4 +119,25 @@ public class ProductController {
         return map;
 
     }
+
+    @ApiOperation(value = "读取指定产品信息", notes = "根据id的值读取指定产品信息")
+    @ApiImplicitParam(name = "id", value = "要读取的产品信息id", paramType = "path", required = true,example="1")
+    @GetMapping("/{id}")
+    public Map<String, Object>  getProduct(@PathVariable Integer id){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("code", 0);
+        map.put("data",productService.getProduct(id));
+        return map;
+    }
+    @ApiOperation(value = "批量删除指定的多个产品", notes = "批量删除指定的多个产品")
+    @ApiImplicitParam(name = "ids", value = "要删除的产品id集合", required = true,paramType = "path",example ="15,25,74" )
+    @DeleteMapping("/{ids}")
+    public Map<String, Object> deleteProducts(@PathVariable("ids")Integer[] ids){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("code", 0);
+        productService.deleteProducts(ids);
+        map.put("msg", "删除成功！！！");
+        return map;
+    }
+
 }

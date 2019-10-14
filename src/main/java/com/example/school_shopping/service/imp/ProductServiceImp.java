@@ -89,5 +89,17 @@ public class ProductServiceImp implements ProductService{
 
         return productDao.getShopProductTypelist(productTypeId);
     }
-
+    @Override
+    public Product getProduct(Integer id) {
+        Product product=null;
+        if(id!=null){
+            product=productDao.getProduct(id);
+        }
+        return product;
+    }
+    @Override
+    public void deleteProducts(Integer[] ids){
+        //如果商品有订单不允许删除
+        productDao.deletes(ids);
+    }
 }

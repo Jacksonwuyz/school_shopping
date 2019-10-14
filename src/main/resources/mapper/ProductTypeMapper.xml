@@ -17,7 +17,13 @@
 		select * from producttype where name=#{name}
 	</select>
 
-	<!--登录-->
+	<!--批量删除-->
+	<delete id="deletes" >
+		delete from producttype where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 
 	<!--删除-->
 	<delete id="deleteProductType">

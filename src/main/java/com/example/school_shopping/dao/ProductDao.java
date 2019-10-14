@@ -62,10 +62,22 @@ public interface ProductDao {
         * */
     List<Product> getProductList(Integer pageSize);
 
-
+    /*
+       *  根据标识符获取相应的管理账户对象
+       *  @param id
+       *  @return null 表示没有找到
+       * */
+    Product getProduct(Integer id);
     /*
       *
       * 获取产品
       * */
     List<Product> getShopProductTypelist(Integer productTypeId);
+
+    /**
+     * 根据标志符集合删除对应的记录信息集合
+     * @param ids id集合
+     * @return  删除的记录数，>=1表示删除成功，0表示删除失败
+     */
+    int deletes(Integer[] ids);
 }
