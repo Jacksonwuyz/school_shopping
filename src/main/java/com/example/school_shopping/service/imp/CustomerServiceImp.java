@@ -126,5 +126,13 @@ public class CustomerServiceImp implements CustomerService {
         }
         return status;
     }
+    @Override
+    public Customer getCustomer(Integer id) {
+        Customer customer=null;
+        if(id!=null){
+            customer=customerDao.getCustomer(id);
+        }
+        return customer;
+    }
 
 }

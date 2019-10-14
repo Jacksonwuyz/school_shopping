@@ -72,4 +72,11 @@ public interface CustomerService {
 	 */
 
     boolean updatePassword(String newPass, Integer id);
+
+    /**
+     * 根据id读取对象
+     * @param id
+     * @return
+     */
+    Customer getCustomer(Integer id);
 }

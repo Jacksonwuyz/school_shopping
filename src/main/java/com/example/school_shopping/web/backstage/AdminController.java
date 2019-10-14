@@ -40,7 +40,6 @@ public class AdminController {
         map.put("page",page);
         return map;
     }
-
     @ApiOperation(value = "执行删除管理员操作")
     @DeleteMapping
     public Map<String,Object> DeleteAdmin(HttpSession session,Integer id) {

@@ -20,12 +20,11 @@ public class ProductShopController {
     @Resource
     private ProductService productService;
 
-    @ApiOperation(value = "获取所有产品分类信息", notes = "获取所有产品分类信息")
+    @ApiOperation(value = "获取所有产品分类下的产品信息", notes = "获取所有产品分类下的产品信息")
     @GetMapping(value = "/ShopProductTypeList")
     public Map<String, Object> shopProductTypelist(HttpServletRequest request,Integer productTypeId){
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("data",productService.getShopProductTypelist(productTypeId));
-        map.put("maxPage", productService.maxPage());//最大也
         map.put("code",0);
         return map;
     }
