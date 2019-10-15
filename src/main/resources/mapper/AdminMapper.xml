@@ -49,5 +49,11 @@
 			#{item}
 		</foreach>
 	</delete>
+	<select id="query" resultType="Admin">
+		select * from admin order by id asc limit #{offset},#{length}
+	</select>
 
+	<select id="querySize" resultType="int">
+		select count(1) from admin
+	</select>
 </mapper>

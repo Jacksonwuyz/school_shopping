@@ -144,5 +144,15 @@ public class AdminController {
         map.put("data",adminService.getAdmin(id));
         return map;
     }
-
+    @ApiOperation(value = "批量删除账户", notes = "根据id的值删除指定账户")
+    @ApiImplicitParam(name = "ids", value = "要删除的账户id集合", required = true,paramType = "path",example ="15,25,74" )
+    @DeleteMapping("/deletes/{ids}")
+    public Map<String, Object> deleteAdmins(@PathVariable("ids")Integer[] ids, HttpSession session){
+        Map<String, Object> map=new HashMap<String, Object>();
+        Admin admin=(Admin)session.getAttribute("admin");
+        adminService.deleteAdmins(admin,ids);
+        map.put("code", 0);
+        map.put("msg", "删除成功！！！");
+        return map;
+    }
 }

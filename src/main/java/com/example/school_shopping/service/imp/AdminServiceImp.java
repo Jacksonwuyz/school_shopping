@@ -1,10 +1,14 @@
 package com.example.school_shopping.service.imp;
 
 import com.example.school_shopping.dao.AdminDao;
+import com.example.school_shopping.dao.ProductDao;
 import com.example.school_shopping.model.Admin;
+import com.example.school_shopping.model.exception.MyServiceException;
+import com.example.school_shopping.model.query.ProductQuery;
 import com.example.school_shopping.service.AdminService;
 import com.example.school_shopping.util.SHA;
 import org.springframework.stereotype.Service;
+import com.example.school_shopping.model.exception.MyWebException;
 
 
 import javax.annotation.Resource;
@@ -15,6 +19,8 @@ import java.util.List;
 public class AdminServiceImp implements AdminService {
     @Resource
     private AdminDao adminDao;
+    @Resource
+    private ProductDao productDao;
 //登录
     public Admin login(String username,String password){
         if (password.length()!=32){
@@ -38,6 +44,7 @@ public class AdminServiceImp implements AdminService {
 //注册
     public boolean saveAdmin(Admin admin) {
         boolean stsatus = false;
+        admin.setPassword(SHA.getResult("123456"));
         admin.setCreateTime(new Date());//系统当前时间为创建日期
         if (adminDao.saveAdmin(admin)>0) {
             stsatus = true;
@@ -45,20 +52,6 @@ public class AdminServiceImp implements AdminService {
             stsatus = false;
         }
         return stsatus;
-    }
-
-    //删除
-    public boolean deleteAdmin(Integer id, Integer adminId) {
-        boolean status = false;//存储修改结果
-        if (id != null && adminId != null) {
-            if (adminId != id.intValue()) {//如果不是自己删除自己
-                int n = adminDao.deleteAdmin(id);
-                if (n == 1) {
-                    status = true;
-                }
-            }
-        }
-        return status;
     }
 
     //编辑（修改）
@@ -115,5 +108,48 @@ public class AdminServiceImp implements AdminService {
         }
         return admin;
     }
-
+    //删除
+    public boolean deleteAdmin(Integer id, Integer adminId) {
+        boolean status = false;//存储修改结果
+        if (id != null && adminId != null) {
+            if (adminId != id.intValue()) {//如果不是自己删除自己
+                int n = adminDao.deleteAdmin(id);
+                if (n == 1) {
+                    status = true;
+                }
+            }
+        }
+        return status;
+    }
+/*批量删除*/
+@Override
+public void deleteAdmins(Admin admin,Integer[] ids) {
+    //先进行验证
+    for(Integer id:ids){
+        Admin adminDelete=new Admin(id);
+        if(admin.getId()==id.intValue()) {//如果登录账户的id与被删除账户的id一致
+            throw new MyServiceException("删除失败：不允许删除自己的账户");
+        }
+        adminDelete=adminDao.getAdmin(id);//被删除账户的数据
+        //检查有没有发布过产品
+       ProductQuery productQuery=new ProductQuery();
+        productQuery.setCreator(adminDelete);
+        int saveProductNumber=productDao.querySize(productQuery);//该账户已经发布的产品数量
+        if(saveProductNumber>0){
+            throw new MyServiceException("删除失败：该账户（username）发布过number个产品"
+                    .replace("username",admin.getUsername())
+                    .replace("number",String.valueOf(saveProductNumber)));
+        }
+        //检查有没有编辑过产品（本项目中应该是有没有是最后编辑者）
+         productQuery=new ProductQuery();
+        productQuery.setFinalEditor(adminDelete);
+        int updateProductNumber=productDao.querySize(productQuery);//该账户已经发布的产品数量
+        if(updateProductNumber>0){
+            throw new MyServiceException("删除失败：该账户(username)编辑（最后编辑者）过number个产品"
+                    .replace("username",adminDelete.getUsername())
+                    .replace("number",String.valueOf(updateProductNumber)));
+        }
+    }
+    adminDao.deletes(ids);
+}
 }

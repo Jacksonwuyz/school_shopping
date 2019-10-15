@@ -56,5 +56,5 @@ public interface AdminDao {
      * @param ids id集合
      * @return  删除的记录数，>=1表示删除成功，0表示删除失败
      */
-    int deletes(java.io.Serializable[] ids);
+    int deletes(Integer[] ids);
 }

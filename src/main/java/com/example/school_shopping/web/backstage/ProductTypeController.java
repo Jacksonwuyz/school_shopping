@@ -105,4 +105,18 @@ public class ProductTypeController {
         map.put("msg", "删除成功！！！");
         return map;
     }
+    /**
+     * 读取指定产品栏目
+     * @param id 指定产品分类的主键
+     * @return
+     */
+    @ApiOperation(value = "读取指定产品栏目信息", notes = "根据id的值读取指定产品栏目信息")
+    @ApiImplicitParam(name = "id", value = "要读取的账户id", paramType = "path",dataType="int", required = true,example="1")
+    @GetMapping("/{id}")
+    public Map<String, Object>  getProductType(@PathVariable Integer id){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("codes", 0);
+        map.put("data",productTypeService.getProductType(id));
+        return map;
+    }
 }

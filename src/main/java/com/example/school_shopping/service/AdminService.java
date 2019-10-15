@@ -1,6 +1,7 @@
 package com.example.school_shopping.service;
 
 import com.example.school_shopping.model.Admin;
+import com.example.school_shopping.model.exception.MyWebException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -81,5 +82,5 @@ public interface AdminService {
      * @param admin 执行删除的管理员账户
      * @param ids 多个账户的主键集合
      */
-   /* void deleteAdmins(Admin admin,Integer[] ids);*/
+    void deleteAdmins(Admin admin,Integer[] ids)throws MyWebException;
 }

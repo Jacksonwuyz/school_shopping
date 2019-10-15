@@ -52,7 +52,7 @@ public class ProductController {
         product.setName(product.getName().trim());
         if (product.getName().length() == 0) {
             map.put("myMessage", "产品添加：产品名称不能为空！");
-        } /*else if (product.getProductType()==null) {
+        } else if (product.getProductType()==null) {
             map.put("myMessage", "产品添加:产品分类不能为空");
         }else if (product.getOrderNum() == null) {
             map.put("myMessage", "产品添加:产品优先级不能为空");
@@ -62,7 +62,7 @@ public class ProductController {
             map.put("myMessage", "产品添加:产品原价不能为空");
         } else if (product.getClick() == null) {
             map.put("myMessage", "产品添加:产品点击数不能为空");
-        }*/ else if(productService.existsProduct(product.getName())==true){
+        } else if(productService.existsProduct(product.getName())==true){
             if (productService.SaveProduct(product)) {
                 map.put("product", null);
                 map.put("code", 0);

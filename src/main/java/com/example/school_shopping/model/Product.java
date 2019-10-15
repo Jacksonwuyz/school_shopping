@@ -19,7 +19,12 @@ public class Product {
     private Boolean onSale;//是否上架（true表示上架，但是要考虑上架时间；false表示不上架）
     private java.util.Date createTime;//创建时间
     private Admin creator;//创建产品管理员
-    private ProductType creatorId;//产品管理员Id
+    public Product() {
+    }
+
+    public Product(int id) {
+        this.id=id;
+    }
 
     public Integer getId() {
         return id;
@@ -140,6 +145,7 @@ public class Product {
     public void setCreator(Admin creator) {
         this.creator = creator;
     }
+/*
 
     public ProductType getCreatorId() {
         return creatorId;
@@ -148,6 +154,7 @@ public class Product {
     public void setCreatorId(ProductType creatorId) {
         this.creatorId = creatorId;
     }
+*/
 
     public Admin getFinalEditor() {
         return finalEditor;
