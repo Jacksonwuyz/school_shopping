@@ -184,4 +184,5 @@ public class Product {
     private ProductType finalEditorId;//最后编辑管理员Id
     private java.util.Date updateTime;//最后编辑时间
 
+
 }

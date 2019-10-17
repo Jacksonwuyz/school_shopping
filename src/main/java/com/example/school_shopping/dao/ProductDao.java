@@ -1,11 +1,14 @@
 package com.example.school_shopping.dao;
 
 import com.example.school_shopping.model.Product;
+import com.example.school_shopping.model.base.PageObject;
+import com.example.school_shopping.model.query.ProductQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface ProductDao {
+
 
     /**
      * 返回所有的管理账户集合
@@ -87,4 +90,7 @@ public interface ProductDao {
      * @return
      */
     int querySize(@Param(value = "objectQuery")Object objectQuery);
+
+    List<Product> searchProducts(@Param(value = "name") String name);
+
 }

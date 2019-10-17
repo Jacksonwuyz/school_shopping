@@ -1,12 +1,16 @@
 package com.example.school_shopping.service;
 
 import com.example.school_shopping.model.Product;
+import com.example.school_shopping.model.base.PageObject;
+import com.example.school_shopping.model.query.ProductQuery;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface ProductService {
+
 
 
     /**
@@ -77,4 +81,7 @@ public interface ProductService {
      * @param ids 多个产品的主键集合
      */
     void deleteProducts(Integer[] ids);
+
+
+    List<Product> searchProducts(@Param(value = "name") String name);
 }

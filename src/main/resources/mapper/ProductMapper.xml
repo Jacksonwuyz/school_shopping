@@ -26,26 +26,6 @@
 	<delete id="deleteProduct">
 		delete from product where id=#{id}
 	</delete>
-	<!--修改-->
-	<update id="updateProduct">
-		update product
-		<set>
-			<if test="productType!=null and producttype.id!=null">productTypeId=#{producttype.id},</if>
-			<if test="name!=null and name.length()>0">name=#{name},</if>
-			<if test="orderNum!=null">orderNum=#{orderNum},</if>
-			<if test="description!=null">description=#{description},</if>
-			<if test="content!=null">content=#{content},</if>
-			<if test="price!=null and price>0">price=#{price},</if>
-			<if test="originalPrice!=null and originalPrice>0">originalPrice=#{originalPrice},</if>
-			<if test="picUrl!=null">picUrl=#{picUrl},</if>
-			<if test="number!=null and number>0">number=#{number},</if>
-			<if test="click!=null and click>0">click=#{click},</if>
-			<if test="price!=null and price>0">price=#{price},</if>
-			<if test="finalEditor!=null and finalEditor.id!=null">finalEditorId=#{finalEditor.id},</if>
-			<if test="updateTime!=null">updateTime=#{updateTime},</if>
-		</set>
-		where id=#{id}
-	</update>
 	<select id="total" resultType="int">
 		select count(id) from Product
 	</select>
@@ -67,7 +47,26 @@
 			#{item}
 		</foreach>
 	</delete>
-
+	<!--修改-->
+	<update id="updateProduct">
+		update product
+		<set>
+			<if test="productType!=null and producttype.id!=null">productTypeId=#{producttype.id},</if>
+			<if test="name!=null and name.length()>0">name=#{name},</if>
+			<if test="orderNum!=null">orderNum=#{orderNum},</if>
+			<if test="description!=null">description=#{description},</if>
+			<if test="content!=null">content=#{content},</if>
+			<if test="price!=null and price>0">price=#{price},</if>
+			<if test="originalPrice!=null and originalPrice>0">originalPrice=#{originalPrice},</if>
+			<if test="picUrl!=null">picUrl=#{picUrl},</if>
+			<if test="number!=null and number>0">number=#{number},</if>
+			<if test="click!=null and click>0">click=#{click},</if>
+			<if test="price!=null and price>0">price=#{price},</if>
+			<if test="finalEditor!=null and finalEditor.id!=null">finalEditorId=#{finalEditor.id},</if>
+			<if test="updateTime!=null">updateTime=#{updateTime},</if>
+		</set>
+		where id=#{id}
+	</update>
 	<select id="querySize" resultType="int">
 		select count(1) from product
 		<if test="objectQuery!=null">
@@ -164,5 +163,20 @@
 			</otherwise>
 		</choose>
 		limit #{offset},#{length}
+	</select>
+
+	<select id="searchProducts" resultType="product">
+		<bind name="pattern1" value="'%' + _parameter.name + '%'" />
+		<bind name="pattern2" value="'%' + _parameter.price + '%'" />
+		select * from product
+		<where>
+			<if test="name != null and name != ''">
+				and name like #{pattern1}
+			</if>
+			<if test="price != null and price != ''">
+				and price like #{pattern2}
+			</if>
+		</where>
+		order by orderNum asc,createTime desc
 	</select>
 </mapper>

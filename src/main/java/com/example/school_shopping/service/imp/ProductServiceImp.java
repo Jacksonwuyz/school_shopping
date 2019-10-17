@@ -2,7 +2,10 @@ package com.example.school_shopping.service.imp;
 
 import com.example.school_shopping.dao.ProductDao;
 import com.example.school_shopping.model.Product;
+import com.example.school_shopping.model.base.PageObject;
+import com.example.school_shopping.model.query.ProductQuery;
 import com.example.school_shopping.service.ProductService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,6 +15,7 @@ import java.util.List;
 public class ProductServiceImp implements ProductService{
     @Resource
     private ProductDao productDao;
+
 
     public List<Product> getProductList() {
         return productDao.getProductList();
@@ -101,5 +105,11 @@ public class ProductServiceImp implements ProductService{
     public void deleteProducts(Integer[] ids){
         //如果商品有订单不允许删除
         productDao.deletes(ids);
+    }
+    @Override
+    public  List<Product> searchProducts(String name){
+
+
+        return productDao.searchProducts(name);
     }
 }
