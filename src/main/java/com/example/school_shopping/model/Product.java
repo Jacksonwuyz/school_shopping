@@ -1,5 +1,8 @@
 package com.example.school_shopping.model;
 
+import org.hibernate.validator.constraints.Range;
+
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Product {
@@ -11,14 +14,17 @@ public class Product {
     private Integer orderNum;//优先级
     private String description;//产品描述
     private String content;//产品详细描述
-    private Float price;//产品现价
-    private Float originalPrice;//产品原价
+    private BigDecimal price;//产品现价
+    @Range(min=0,message="产品原价不能为负数")
+    private BigDecimal originalPrice;//产品原价
     private String picUrl;//产品图片路径
     private Integer number;//库存数量
     private Integer click;//点击数
     private Boolean onSale;//是否上架（true表示上架，但是要考虑上架时间；false表示不上架）
     private java.util.Date createTime;//创建时间
     private Admin creator;//创建产品管理员
+    @Range(min=0,message="库存不能为负数")
+    private Integer repository;//库存数量
     public Product() {
     }
 
@@ -82,19 +88,19 @@ public class Product {
         this.content = content;
     }
 
-    public Float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public Float getOriginalPrice() {
+    public BigDecimal getOriginalPrice() {
         return originalPrice;
     }
 
-    public void setOriginalPrice(Float originalPrice) {
+    public void setOriginalPrice(BigDecimal originalPrice) {
         this.originalPrice = originalPrice;
     }
 
@@ -155,7 +161,13 @@ public class Product {
         this.creatorId = creatorId;
     }
 */
+       public Integer getRepository() {
+    return repository;
+          }
 
+    public void setRepository(Integer repository) {
+        this.repository = repository;
+    }
     public Admin getFinalEditor() {
         return finalEditor;
     }

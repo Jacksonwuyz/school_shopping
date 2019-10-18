@@ -90,7 +90,13 @@ public interface ProductDao {
      * @return
      */
     int querySize(@Param(value = "objectQuery")Object objectQuery);
-
+//搜索
     List<Product> searchProducts(@Param(value = "name") String name);
+    /**
+     * 根据该对象的关键字，读取指定记录,不包含关联属性
+     * @param id 关键字
+     * @return null表示读取失败
+     */
+    Product getSimple(Integer id);
 
 }

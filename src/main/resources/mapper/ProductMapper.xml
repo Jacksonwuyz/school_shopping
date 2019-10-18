@@ -179,4 +179,8 @@
 		</where>
 		order by orderNum asc,createTime desc
 	</select>
+
+	<select id="getSimple" resultType="Product">
+		select * from product where id=#{id}
+	</select>
 </mapper>
