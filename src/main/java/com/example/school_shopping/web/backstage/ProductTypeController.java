@@ -1,13 +1,21 @@
 package com.example.school_shopping.web.backstage;
 
 import com.example.school_shopping.model.ProductType;
+import com.example.school_shopping.model.base.Constant;
+import com.example.school_shopping.model.base.JsonCode;
 import com.example.school_shopping.service.ProductTypeService;
+import com.example.school_shopping.util.file.MyFileOperator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +26,9 @@ import java.util.Map;
 public class ProductTypeController {
     @Resource
     private ProductTypeService productTypeService;
+
+    @Value("${myFile.uploadFolder}")
+    private String uploadFolder;//上传路径
 
     @ApiOperation(value = "读取商品信息")
     @GetMapping
@@ -117,6 +128,45 @@ public class ProductTypeController {
         Map<String, Object> map=new HashMap<String, Object>();
         map.put("codes", 0);
         map.put("data",productTypeService.getProductType(id));
+        return map;
+    }
+
+    @ApiOperation(value = "上传指定产品栏目的图片", notes = "上传指定产品栏目的图片")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "指定产品栏目的id", paramType = "path", required = true,example="1"),
+            @ApiImplicitParam(name = "file", value = "要上传的图片", paramType = "form", dataType="__file",required = true)
+    })
+    @PostMapping("/uploadPhoto/{id}")
+    public Map<String, Object> uploadPhoto(@PathVariable Integer id, MultipartFile file){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("code", -1);//默认失败
+        if(!file.isEmpty()){
+            ProductType productType=productTypeService.getProductType(id);//获取对象
+            if(productType!=null){//如果该对象存在，则执行上传
+                //String basepath= ClassUtils.getDefaultClassLoader().getResource("").getPath();//获取项目的根目录，注意不能用JSP那套获取根目录，因为spring boot的tomcat为内置，每次都变
+                String basepath=uploadFolder;;
+                String filePath=basepath+Constant.PRODUCTTYPE_PICTURE_UPLOAD_URL;//获取图片上传后保存的物理路径
+                MyFileOperator.createDir(filePath);//创建存储目录
+                String fileName=file.getOriginalFilename();//获取文件名
+                String extensionName=MyFileOperator.getExtensionName(fileName);//获取文件扩展名
+                fileName=id+"."+extensionName;//根据id重新生成文件名
+                try {
+                    file.transferTo(new File(filePath+fileName));
+                    if(!fileName.equals(productType.getImageUrl())){//如果新上传的文件名和原来的不一样，则需要删除原来的文件；如果一样则直接覆盖，不需要处理
+                        MyFileOperator.deleteFile(filePath+productType.getImageUrl());//删除原文件
+                    }
+                    productType=new ProductType(id);
+                    productType.setImageUrl(fileName);
+                    productTypeService.updateProductType(productType);//将新的图片信息存入数据库
+                    map.put("code", 0);
+                    map.put("msg", "上传成功");
+                } catch (IOException e) {
+                    map.put("msg", "上传失败："+e.getMessage());
+                }
+            }
+        }else{
+            map.put("msg", "上传失败：请先选择文件");
+        }
         return map;
     }
 }

@@ -34,7 +34,7 @@ public class ShoppingCartController {
 
     @ApiOperation(value = "添加商品到购物车", notes = "添加商品到购物车，然后返回添加商品后的购物车信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "productId", value = "产品id", required = true, dataType = "int",example="101"),
+            @ApiImplicitParam(name = "productId", value = "产品id", required = true, dataType = "int",example="1"),
             @ApiImplicitParam(name = "number", value = "数量", required = true, dataType = "int",example="1")
     })
     @PostMapping

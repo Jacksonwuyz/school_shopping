@@ -1,5 +1,7 @@
 package com.example.school_shopping.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import java.util.Date;
 
 public class Customer {
@@ -8,12 +10,18 @@ public class Customer {
     private String username;//账户名
     private String password;//账户密码
     private String name;//客户名称
+    @Length(max = 255, message = "产品的图片地址不能超过{max}个字符")
     private String picUrl;//头像路径
     private String tel;//电话号码
     private String address;//客户地址
     private String zip;//客户邮编
     private String email;//客户电子邮箱
+    public Customer() {
+    }
 
+    public Customer(Integer id) {
+        this.id=id.intValue();
+    }
     public Integer getId() {
         return id;
     }

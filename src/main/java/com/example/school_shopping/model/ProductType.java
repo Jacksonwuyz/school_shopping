@@ -1,12 +1,23 @@
 package com.example.school_shopping.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import java.util.Date;
 
 public class ProductType {
     private Integer id;
     private String name;//产品类别名称
-    private String image;//栏目的标题图片地址
+    @Length(max = 255, message = "产品类别的外部链接地址不能超过{max}个字符")
+    private String linkUrl;//转向链接地址（如果存在则直接转向链接地址，否则打开本网站栏目）
+    @Length(max = 200, message = "产品的图片地址不能超过{max}个字符")
+    private String imageUrl;//栏目的标题图片地址
     private String intro;//栏目简介
+    public ProductType() {
+    }
+
+    public ProductType(int id) {
+        this.id=id;
+    }
 
     public Integer getId() {
         return id;
@@ -23,14 +34,23 @@ public class ProductType {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getImage() {
-        return image;
+    public String getLinkUrl() {
+        return linkUrl;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
     }
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 
     public String getIntro() {
         return intro;

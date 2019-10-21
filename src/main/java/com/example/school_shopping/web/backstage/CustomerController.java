@@ -1,16 +1,24 @@
 package com.example.school_shopping.web.backstage;
 
 import com.example.school_shopping.model.Customer;
+import com.example.school_shopping.model.base.Constant;
 import com.example.school_shopping.service.CustomerService;
+import com.example.school_shopping.util.file.MyFileOperator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +30,9 @@ import java.util.Map;
 public class CustomerController {
     @Resource
     private CustomerService customerService;
+
+    @Value("${myFile.uploadFolder}")
+    private String uploadFolder;//上传路径
 
     ////跳转到客户模块页面
     @GetMapping
@@ -107,6 +118,44 @@ public class CustomerController {
         map.put("code",0);
         map.put("msg", "删除成功！！！");
         customerService.deleteCustomers(ids);
+        return map;
+    }
+    @ApiOperation(value = "上传指定客户的头像", notes = "根据id的值上传指定客户的头像")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "指定账户id", paramType = "path", required = true),
+            @ApiImplicitParam(name = "file", value = "要上传的头像", paramType = "form", dataType="__file",required = true)
+    })
+    @PostMapping("/uploadPhoto/{id}")
+    public Map<String, Object> uploadPhoto(@PathVariable Integer id,MultipartFile file) throws FileNotFoundException {
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("code", -1);//默认失败
+        if(!file.isEmpty()){
+            Customer customer=customerService.getCustomer(id);//获取账户对象
+            if(customer!=null){//如果该账户存在，则执行上传
+                //String basepath=ClassUtils.getDefaultClassLoader().getResource("").getPath();//获取项目的根目录(物理路径)，注意不能用JSP那套获取根目录，因为spring boot的tomcat为内置，每次都变
+                String basepath=uploadFolder;
+                String filePath=basepath+ Constant.CUSTOMER_PROFILE_PICTURE_UPLOAD_URL;//获取图片上传后保存的物理路径
+                MyFileOperator.createDir(filePath);//创建存储目录
+                String fileName=file.getOriginalFilename();//获取文件名
+                String extensionName= MyFileOperator.getExtensionName(fileName);//获取文件扩展名
+                fileName=id+"."+extensionName;//根据id重新生成文件名
+                try {
+                    file.transferTo(new File(filePath+fileName));
+                    if(!fileName.equals(customer.getPicUrl())){//如果新上传的文件名和原来的不一样，则需要删除原来的文件；如果一样则直接覆盖，不需要处理
+                        MyFileOperator.deleteFile(filePath+customer.getPicUrl());//删除原文件
+                    }
+                    customer=new Customer(id);
+                    customer.setPicUrl(fileName);
+                    customerService.updateCustomer(customer);//将新的图片信息存入数据库
+                    map.put("code", 0);
+                    map.put("msg", "上传成功");
+                } catch (IOException e) {
+                    map.put("msg", "头像上传失败："+e.getMessage());
+                }
+            }
+        }else{
+            map.put("msg", "上传失败：请先选择文件");
+        }
         return map;
     }
 

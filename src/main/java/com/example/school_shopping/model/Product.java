@@ -1,5 +1,6 @@
 package com.example.school_shopping.model;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public class Product {
     private BigDecimal price;//产品现价
     @Range(min=0,message="产品原价不能为负数")
     private BigDecimal originalPrice;//产品原价
+    @Length(max = 255, message = "产品的图片地址不能超过{max}个字符")
     private String picUrl;//产品图片路径
     private Integer number;//库存数量
     private Integer click;//点击数
