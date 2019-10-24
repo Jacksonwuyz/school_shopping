@@ -64,9 +64,20 @@ public interface CustomerDao {
           * */
     int total();
     /**
+     * 获取表中所有记录
+     * @return
+     */
+    List<Customer> readAll();
+    /**
      * 根据标志符集合删除对应的记录信息集合
      * @param ids id集合
      * @return  删除的记录数，>=1表示删除成功，0表示删除失败
      */
     int deletes(Integer[] ids);
+    /**
+     * 获取查询记录数，一般与query配合使用
+     * @param objectQuery 查询条件类
+     * @return
+     */
+    int querySize(@Param(value = "objectQuery")Object objectQuery);
 }

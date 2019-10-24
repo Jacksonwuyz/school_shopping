@@ -1,7 +1,10 @@
 package com.example.school_shopping.web.backstage;
 
 import com.example.school_shopping.model.Customer;
+import com.example.school_shopping.model.Product;
 import com.example.school_shopping.model.base.Constant;
+import com.example.school_shopping.model.base.JsonCode;
+import com.example.school_shopping.model.base.PageObject;
 import com.example.school_shopping.service.CustomerService;
 import com.example.school_shopping.util.file.MyFileOperator;
 import io.swagger.annotations.Api;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,18 +41,12 @@ public class CustomerController {
     ////跳转到客户模块页面
     @GetMapping
     @ApiOperation(value = "读取客户信息")
-    public Map<String,Object> tocustomer(HttpSession session,Integer page) {
+    public Map<String,Object> tocustomer(HttpServletRequest request) {
         Map<String,Object> map=new HashMap<String,Object>();
-        Customer customer=(Customer)session.getAttribute("customer");
-        if (page==null){//如果page为null，默认为第一页
-            page=1;
-        }else {
-            if (page<1){
-                page=1;
-            }
-        }
-        map.put("data", customerService.getCustomerList(page));//当前页显示的记录集合
-        map.put("page",page);//当前页
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";//获取项目根目录网址
+        List<Customer> list=customerService.getCustomerList(basePath);
+        map.put("toal",list.size());
+        map.put("data",list);
         map.put("code",0);
         return map;
     }

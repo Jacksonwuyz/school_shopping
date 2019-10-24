@@ -6,7 +6,7 @@
 <mapper namespace="com.example.school_shopping.dao.CustomerDao">
 
 	<select id="getCustomerList" resultType="Customer">
-		select * from customer order by id asc
+		select * from customer where id=#{id}
 	</select>
 
 	<!--添加-->
@@ -17,7 +17,10 @@
 	<select id="existsCustomer" resultType="Customer">
 		select * from customer where username=#{username}
 	</select>
-
+	<!--获取表中所有的数据-->
+	<select id="readAll" resultType="Customer">
+		select * from customer order by id desc
+	</select>
 	<!--登录-->
 	<select id="login" resultType="Customer">
 		select * from customer where username=#{username} and password=#{password}
@@ -54,7 +57,45 @@
 	<select id="total" resultType="int">
 		select count(id) from customer
 	</select>
-
+	<select id="querySize" resultType="int">
+		select count(1) from customer
+		<if test="objectQuery!=null">
+			<where>
+				<if test="objectQuery.username!=null and objectQuery.username.length()>0">
+					<!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
+					<bind name="username" value="'%' + _parameter.objectQuery.username + '%'" />
+					and username like #{username}
+				</if>
+				<if test="objectQuery.name!=null and objectQuery.name.length()>0">
+					<bind name="name" value="'%' + _parameter.objectQuery.name + '%'" />
+					and name like #{name}
+				</if>
+				<if test="objectQuery.sex!=null and  objectQuery.sex!=0">
+					and sex=#{objectQuery.sex}
+				</if>
+				<if test="objectQuery.changeInitialPassword!=null">
+					<choose>
+						<when test="objectQuery.changeInitialPassword==true">
+							and password!='${@com.lcvc.ebuy_springboot.util.SHA@getResult(123456)}'
+						</when>
+						<otherwise>
+							and password='${@com.lcvc.ebuy_springboot.util.SHA@getResult(123456)}'
+						</otherwise>
+					</choose>
+				</if>
+				<if test="objectQuery.uploadPhoto!=null">
+					<choose>
+						<when test="objectQuery.uploadPhoto==true">
+							and (picUrl!='' or picUrl!=null)
+						</when>
+						<otherwise>
+							and (picUrl='' or picUrl is null)
+						</otherwise>
+					</choose>
+				</if>
+			</where>
+		</if>
+	</select>
 	<select id="getPartlist" resultType="Customer">
 		select * from customer order by id asc limit #{offset},#{length}
 	</select>

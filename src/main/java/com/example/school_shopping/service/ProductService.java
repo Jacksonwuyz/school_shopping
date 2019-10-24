@@ -18,7 +18,7 @@ public interface ProductService {
      *
      * @return 以List方式返回
      */
-    List<Product> getProductList();
+    List<Product> getProductList(String basePath);
 
 
     /*

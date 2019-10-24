@@ -14,16 +14,16 @@ public class ProductDaoTest extends SchoolShoppingApplicationTests {
     @Resource
     private ProductDao productDao;
 
-    @Test
+  /*  @Test
     public void testGetProductList(){
-        List<Product> list=productDao.getProductList();
+        List<Product> list=productDao .getProductList();
         for (int i=0;i<list.size();i++){
             Product product=list.get(i);
             System.out.println(product.getName()+"\t");
             System.out.println();
         }
         System.out.println(productDao.getProductList());
-    }
+    }*/
     @Test
     public void testSaveProduct(){
         Product product=new Product();

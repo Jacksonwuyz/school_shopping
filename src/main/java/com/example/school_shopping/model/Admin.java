@@ -1,6 +1,7 @@
 package com.example.school_shopping.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
 
@@ -14,7 +15,8 @@ public class Admin {
     //非数据库字段
     @ApiModelProperty(hidden = true)
     private Integer saveProductNumber;//发布过的产品数量，用于传递给业务层其他对象或web层
-
+    @Length(max = 255, message = "产品的图片地址不能超过{max}个字符")
+    private String picUrl;//头像路径
     public Admin() {
     }
     public Admin(Integer id){
@@ -61,7 +63,12 @@ public class Admin {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    public String getPicUrl() {
+        return picUrl;
+    }
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+    }
     public Integer getSaveProductNumber() {
         return saveProductNumber;
     }

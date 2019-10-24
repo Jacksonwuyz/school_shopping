@@ -1,5 +1,6 @@
 package com.example.school_shopping.web.shop;
 
+import com.example.school_shopping.model.Product;
 import com.example.school_shopping.model.base.PageObject;
 import com.example.school_shopping.model.query.ProductQuery;
 import com.example.school_shopping.service.ProductService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //表示所有的请求都是@ResponseBody
@@ -31,8 +33,11 @@ public class ProductShopController {
 
     @ApiOperation(value = "获取所有产品分类下的产品信息", notes = "获取所有产品分类下的产品信息")
     @GetMapping(value = "/ShopProductTypeList")
-    public Map<String, Object> shopProductTypelist(HttpServletRequest request,Integer productTypeId){
+    public Map<String, Object> shopProductlist(HttpServletRequest request,Integer productTypeId){
         Map<String,Object> map=new HashMap<String,Object>();
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";//获取项目根目录网址
+        List<Product> list=productService.getProductList(basePath);
+        map.put("toal",list.size());
         map.put("data",productService.getShopProductTypelist(productTypeId));
         map.put("code",0);
         return map;

@@ -27,16 +27,19 @@ public class Constant {
             put("media", "swf,flv,mp3,mp4,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb");
             put("file", "doc,docx,xls,xlsx,ppt,htm,html,txt,zip,rar,gz,bz2,chm");
         }
-    };
-    //客户头像上传配置
+    }; //客户头像上传配置
     public static final String CUSTOMER_PROFILE_PICTURE_UPLOAD_URL= "customer_profile_picture/";//保存客户个人头像的目录，用于上传的时候，如果放在static目录下，必须指明static下的绝对路径
     public static final String CUSTOMER_PROFILE_PICTURE_URL="upload/customer_profile_picture/";//保存客户个人头像的目录,用于展示的时候，不需要加上static
+   //管理员头像上传配置
+    public static final String ADMIN_PROFILE_PICTURE_UPLOAD_URL= "admin_profile_picture/";//保存客户个人头像的目录，用于上传的时候，如果放在static目录下，必须指明static下的绝对路径
+    public static final String ADMIN_PROFILE_PICTURE_URL="upload/admin_profile_picture/";//保存客户个人头像的目录,用于展示的时候，不需要加上static
     //产品类别图片上传配置
     public static final String PRODUCTTYPE_PICTURE_UPLOAD_URL= "producttype/";//保存产品栏目的目录，用于上传和删除的时候，如果放在static目录下，必须指明static下的绝对路径
     public static final String PRODUCTTYPE_PICTURE_URL= "upload/producttype/";//保存产品栏目的目录,用于展示的时候，不需要加上static
     //商品头像上传配置
     public static final String PRODUCT_PICTURE_UPLOAD_URL= "product/";//保存商品的目录，用于上传的时候，如果放在static目录下，必须指明static下的绝对路径
     public static final String PRODUCT_PROFILE_PICTURE_URL="upload/product/";//保存商品个人头像的目录,用于展示的时候，不需要加上static
+
 
   /*  //产品优先级
     public final static HashMap<Integer,String> orderNumMapOfProduct = new LinkedHashMap<Integer,String>(){//产品优先级别

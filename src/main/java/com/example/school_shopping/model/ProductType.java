@@ -12,6 +12,7 @@ public class ProductType {
     @Length(max = 200, message = "产品的图片地址不能超过{max}个字符")
     private String imageUrl;//栏目的标题图片地址
     private String intro;//栏目简介
+    private Integer productNumber;//该栏目下的产品数量
     public ProductType() {
     }
 
@@ -66,6 +67,13 @@ public class ProductType {
 
     public void setOrderNum(Integer orderNum) {
         this.orderNum = orderNum;
+    }
+    public Integer getProductNumber() {
+        return productNumber;
+    }
+
+    public void setProductNumber(Integer productNumber) {
+        this.productNumber = productNumber;
     }
 
 //    public Integer getProductNumber() {

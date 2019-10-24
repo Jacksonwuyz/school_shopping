@@ -2,11 +2,13 @@ package com.example.school_shopping.service.imp;
 
 import com.example.school_shopping.dao.ProductDao;
 import com.example.school_shopping.model.Product;
+import com.example.school_shopping.model.base.Constant;
 import com.example.school_shopping.model.base.PageObject;
 import com.example.school_shopping.model.query.ProductQuery;
 import com.example.school_shopping.service.ProductService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -17,8 +19,20 @@ public class ProductServiceImp implements ProductService{
     private ProductDao productDao;
 
 
-    public List<Product> getProductList() {
-        return productDao.getProductList();
+    public List<Product> getProductList(String basePath) {
+        List<Product> productList=productDao.readAll();
+        ProductQuery productQuery=null;//预设产品查询条件
+        for(Product product:productList){
+            //将头像网址进行处理，变为完整的地址
+            if(!StringUtils.isEmpty(product.getPicUrl())){//只要有图片则加上绝对地址
+                product.setPicUrl(basePath+ Constant.PRODUCT_PROFILE_PICTURE_URL+product.getPicUrl());
+            }
+            //获取栏目下的产品数量
+            productQuery=new ProductQuery();
+            int number=productDao.querySize(productQuery);
+        }
+
+        return productList;
     }
 
     public boolean SaveProduct(Product product) {

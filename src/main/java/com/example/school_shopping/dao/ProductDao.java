@@ -14,9 +14,13 @@ public interface ProductDao {
      * 返回所有的管理账户集合
      * @return 以List方式返回
      */
-    List<Product> getProductList();
+    List<Product> getProductList(String basePath);
 
-
+    /**
+     * 获取表中所有记录
+     * @return
+     */
+    List<Product> readAll();
     //添加
     int SaveProduct(Product product);
 

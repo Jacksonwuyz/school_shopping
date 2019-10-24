@@ -13,7 +13,7 @@ public interface ProductTypeService {
      *
      * @return 以List方式返回
      */
-    List<ProductType> getProductTypeList();
+    List<ProductType> getProductTypeList(String basePath);
 
     /*
        * 将账户信息存进数据库
@@ -50,21 +50,12 @@ public interface ProductTypeService {
     boolean existsProductType(String name);
 
 
-    /*分页
-  * */
-    List<ProductType> getProductTypeList(Integer page);
-
     /*
        *  根据标识符获取相应的管理账户对象
        *  @param id
        *  @return null 表示没有找到
        * */
     ProductType getProductType(Integer id);
-
-    /*
-     * 获取产品分类列表
-     * */
-    List<ProductType> getProductTypeShopList();
 
     /**
      * 批量删除指定产品

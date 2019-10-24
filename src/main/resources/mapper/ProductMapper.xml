@@ -10,7 +10,10 @@
 
 	</resultMap>
 	<select id="getProductList" resultMap="product" >
-		select * from product order by id asc
+		select * from product where id=#{id}
+	</select>
+	<select id="readAll" resultType="Product">
+		select * from product order by orderNum asc,id asc
 	</select>
 	<!--添加-->
 	<insert id="SaveProduct">

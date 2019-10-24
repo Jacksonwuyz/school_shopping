@@ -16,7 +16,9 @@
 	<select id="existsProductType" resultType="ProductType">
 		select * from producttype where name=#{name}
 	</select>
-
+	<select id="readAll" resultType="ProductType">
+		select * from producttype order by orderNum asc,id asc
+	</select>
 	<!--批量删除-->
 	<delete id="deletes" >
 		delete from producttype where id in

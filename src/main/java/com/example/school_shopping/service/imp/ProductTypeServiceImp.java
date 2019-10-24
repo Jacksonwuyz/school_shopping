@@ -1,9 +1,13 @@
 package com.example.school_shopping.service.imp;
 
+import com.example.school_shopping.dao.ProductDao;
 import com.example.school_shopping.dao.ProductTypeDao;
 import com.example.school_shopping.model.ProductType;
+import com.example.school_shopping.model.base.Constant;
+import com.example.school_shopping.model.query.ProductQuery;
 import com.example.school_shopping.service.ProductTypeService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -13,9 +17,23 @@ public class ProductTypeServiceImp implements ProductTypeService{
     @Resource
     private ProductTypeDao productTypeDao;
 
+    @Resource
+    private ProductDao productDao;
 
-    public List<ProductType> getProductTypeList() {
-        return productTypeDao.getProductTypeList();
+    public List<ProductType> getProductTypeList(String basePath) {
+        List<ProductType> productTypeList=productTypeDao.readAll();
+        ProductQuery productQuery=null;//预设产品查询条件
+        for(ProductType productType:productTypeList){
+            //将头像网址进行处理，变为完整的地址
+            if(!StringUtils.isEmpty(productType.getImageUrl())){//只要有图片则加上绝对地址
+                productType.setImageUrl(basePath+ Constant.PRODUCTTYPE_PICTURE_URL+productType.getImageUrl());
+            }
+            //获取栏目下的产品数量
+            productQuery=new ProductQuery();
+            productQuery.setProductType(productType);
+            int number=productDao.querySize(productQuery);
+        }
+        return productTypeList;
     }
 
     //添加
@@ -79,10 +97,6 @@ public class ProductTypeServiceImp implements ProductTypeService{
             productType = productTypeDao.getProductType(id);
         }
         return productType;
-    }
-
-    public List<ProductType> getProductTypeShopList(){
-        return  productTypeDao.getProductTypeShopList();
     }
 
     public void deleteProductTypes(Integer[] ids) {

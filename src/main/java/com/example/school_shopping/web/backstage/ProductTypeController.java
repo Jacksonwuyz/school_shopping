@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //表示所有的请求都是@ResponseBody
@@ -32,18 +34,13 @@ public class ProductTypeController {
 
     @ApiOperation(value = "读取商品信息")
     @GetMapping
-    public Map<String,Object> Producttype(Integer page) {
-        Map<String,Object> map=new HashMap<String,Object>();
-        if (page == null) {//如果page为null，默认为第一页
-            page = 1;
-        } else {
-            if (page < 1) {
-                page = 1;
-            }
-        }
-        map.put("data", productTypeService.getProductTypeList(page));//当前页显示的记录集合
-        map.put("page", page);//当前页
-        map.put("code",0);
+    public Map<String,Object> Producttype(HttpServletRequest request) {
+        Map<String, Object> map=new HashMap<String, Object>();
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";//获取项目根目录网址
+        List<ProductType> list=productTypeService.getProductTypeList(basePath);
+        map.put("total",list.size());
+        map.put("data",list);
+        map.put("code", JsonCode.SUCCESS.getValue());
         return map;
     }
 

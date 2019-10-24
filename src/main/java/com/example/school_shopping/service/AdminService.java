@@ -54,12 +54,12 @@ public interface AdminService {
      *
      * @return 以List方式返回
      */
-    List<Admin> getAdminList();
+    List<Admin> getAdminList(String basePath);
 
     /*分页
-  * */
+  * *
     List<Admin> getPartlist(Integer page);
-
+/
     /*
 	 * 将新密码保存到数据库中
 	 * @return true表示密码更改成功，false表示密码更改失败

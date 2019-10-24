@@ -20,7 +20,16 @@ public interface AdminDao {
      */
     Admin existsAdmin(@Param(value = "username") String username);
 
-
+    /*
+             * 获取数据库总记录
+             *
+             * */
+    int total();
+    /**
+     * 获取表中所有记录
+     * @return
+     */
+    List<Admin> readAll();
     /**
      * 删除指定账户
      * @param id 关键字

@@ -8,6 +8,12 @@ import java.util.List;
 @Service
 public interface CustomerService {
 
+    /**
+     * 返回所有的管理账户集合
+     * @return 以List方式返回
+     */
+    List<Customer> getCustomerList(String basePath);
+
     /*
     * 将账户信息存进数据库
     * @param  producttype
@@ -54,15 +60,6 @@ public interface CustomerService {
     * */
     boolean SaveShopCustomer(Customer customer) ;
 
-    /**
-     * 返回所有的管理账户集合
-     * @return 以List方式返回
-     */
-    List<Customer> getCustomerList();
-
-    /*分页
- * */
-    List<Customer> getCustomerList(Integer page);
 
     int maxPage();
 

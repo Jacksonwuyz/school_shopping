@@ -16,7 +16,7 @@ mybatis:
 
 myFile:
     #文件上传目录（注意Linux和Windows上的目录结构不同）
-    uploadFolder: c:/school_shopping/upload/
+    uploadFolder: c:/Program Files/Apache Software Foundation/Tomcat 8.5/webapps/school_shopping/upload/
     #file.uploadFolder=/home/upload/#linux
     #静态资源对外暴露的访问路径
     staticAccessPath: /upload/**

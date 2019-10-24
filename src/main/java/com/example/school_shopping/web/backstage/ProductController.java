@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //表示所有的请求都是@ResponseBody
@@ -36,17 +38,12 @@ public class ProductController {
     //跳转到产品模块页面
     @ApiOperation(value = "读取商品信息")
    @GetMapping
-    public Map<String,Object> toProduct(Integer page) {
+    public Map<String,Object> toProduct(HttpServletRequest request) {
         Map<String,Object> map=new HashMap<String,Object>();
-        if (page == null) {//如果page为null，默认为第一页
-            page = 1;
-        } else {
-            if (page < 1) {
-                page = 1;
-            }
-        }
-        map.put("data", productService.getProductList(page));//当前页显示的记录集合
-        map.put("page", page);//当前页
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";//获取项目根目录网址
+        List<Product> list=productService.getProductList(basePath);
+        map.put("toal",list.size());
+        map.put("data",list);
         map.put("code",0);
         return map;
     }
@@ -162,7 +159,7 @@ public class ProductController {
             if(product!=null){//如果该对象存在，则执行上传
                 //String basepath= ClassUtils.getDefaultClassLoader().getResource("").getPath();//获取项目的根目录，注意不能用JSP那套获取根目录，因为spring boot的tomcat为内置，每次都变
                 String basepath=uploadFolder;;
-                String filePath=basepath+ Constant.PRODUCTTYPE_PICTURE_UPLOAD_URL;//获取图片上传后保存的物理路径
+                String filePath=basepath+ Constant.PRODUCT_PICTURE_UPLOAD_URL;//获取图片上传后保存的物理路径
                 MyFileOperator.createDir(filePath);//创建存储目录
                 String fileName=file.getOriginalFilename();//获取文件名
                 String extensionName=MyFileOperator.getExtensionName(fileName);//获取文件扩展名

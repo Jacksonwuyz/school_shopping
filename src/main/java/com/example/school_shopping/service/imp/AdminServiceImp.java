@@ -3,12 +3,15 @@ package com.example.school_shopping.service.imp;
 import com.example.school_shopping.dao.AdminDao;
 import com.example.school_shopping.dao.ProductDao;
 import com.example.school_shopping.model.Admin;
+import com.example.school_shopping.model.base.Constant;
 import com.example.school_shopping.model.exception.MyServiceException;
+import com.example.school_shopping.model.query.AdminQuery;
 import com.example.school_shopping.model.query.ProductQuery;
 import com.example.school_shopping.service.AdminService;
 import com.example.school_shopping.util.SHA;
 import org.springframework.stereotype.Service;
 import com.example.school_shopping.model.exception.MyWebException;
+import org.springframework.util.StringUtils;
 
 
 import javax.annotation.Resource;
@@ -68,11 +71,22 @@ public class AdminServiceImp implements AdminService {
     }
 
     //查询
-    public List<Admin> getAdminList() {
-        return adminDao.getAdminList();
+    public List<Admin> getAdminList(String basePath) {
+        List<Admin> adminList=adminDao.readAll();
+        AdminQuery adminQuery=null;//预设产品查询条件
+        for(Admin admin:adminList){
+            //将头像网址进行处理，变为完整的地址
+            if(!StringUtils.isEmpty(admin.getPicUrl())){//只要有图片则加上绝对地址
+                admin.setPicUrl(basePath+ Constant.ADMIN_PROFILE_PICTURE_URL+admin.getPicUrl());
+            }
+            //获取栏目下的产品数量
+            adminQuery=new AdminQuery();
+        }
+
+        return adminList;
     }
 
-    @Override
+  /*  @Override
     public List<Admin> getPartlist(Integer page) {
         int pagesize = 10;//每页显示10条记录
         if (page==null){//如果page为null，默认为第一页
@@ -85,7 +99,7 @@ public class AdminServiceImp implements AdminService {
         int offset = (page - 1) * pagesize + 1;//每页开始的记录数位置（仅在业务层使用，不考虑数据库）
 
         return adminDao.getPartlist(offset - 1, pagesize);//数据库记录位置从0数起）
-    }
+    }*/
 //修改密码
     public boolean updatePassword(String newPass, Integer id) {
         Boolean status = false;//默认编辑失败

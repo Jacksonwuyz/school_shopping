@@ -3,9 +3,14 @@ package com.example.school_shopping.service.imp;
 import com.example.school_shopping.dao.CustomerDao;
 import com.example.school_shopping.model.Admin;
 import com.example.school_shopping.model.Customer;
+import com.example.school_shopping.model.Product;
+import com.example.school_shopping.model.base.Constant;
+import com.example.school_shopping.model.query.CustomerQuery;
+import com.example.school_shopping.model.query.ProductQuery;
 import com.example.school_shopping.service.CustomerService;
 import com.example.school_shopping.util.SHA;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -16,13 +21,24 @@ public class CustomerServiceImp implements CustomerService {
     @Resource
     private CustomerDao customerDao;
 
-    public List<Customer> getCustomerList(){
-        return customerDao.getCustomerList();
+    public List<Customer> getCustomerList(String basePath){
+        List<Customer> customerList=customerDao.readAll();
+        CustomerQuery customerQuery=null;//预设产品查询条件
+        for(Customer customer:customerList){
+            //将头像网址进行处理，变为完整的地址
+            if(!StringUtils.isEmpty(customer.getPicUrl())){//只要有图片则加上绝对地址
+                customer.setPicUrl(basePath+ Constant.CUSTOMER_PROFILE_PICTURE_URL+customer.getPicUrl());
+            }
+            //获取栏目下的产品数量
+            customerQuery=new CustomerQuery();
+        }
+
+        return customerList;
     }
 
 
 
-    //前端客户注册
+    //添加
     public boolean SaveCustomer(Customer customer) {
         boolean stsatus = false;
         customer.setPassword(SHA.getResult("123456"));
