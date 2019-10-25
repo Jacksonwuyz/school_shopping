@@ -9,6 +9,7 @@ import com.example.school_shopping.model.query.AdminQuery;
 import com.example.school_shopping.model.query.ProductQuery;
 import com.example.school_shopping.service.AdminService;
 import com.example.school_shopping.util.SHA;
+import com.example.school_shopping.util.file.MyFileOperator;
 import org.springframework.stereotype.Service;
 import com.example.school_shopping.model.exception.MyWebException;
 import org.springframework.util.StringUtils;
@@ -166,4 +167,18 @@ public void deleteAdmins(Admin admin,Integer[] ids) {
     }
     adminDao.deletes(ids);
 }
+    //批量移除头像
+    @Override
+    public void removeAdminsProfilePicture(Integer[] ids, String basePath) {
+        for(Integer id:ids){
+            //删除账户对应的图片
+            Admin admin=adminDao.getAdmin(id);//读取相应的记录
+            String picUrl=admin.getPicUrl();//获取头像地址
+            if(!StringUtils.isEmpty(picUrl)){//如果头像存在
+                admin.setPicUrl("");//清空图片地址
+                adminDao.updateAdmin(admin);
+                MyFileOperator.deleteFile(basePath+ Constant.ADMIN_PROFILE_PICTURE_UPLOAD_URL+picUrl);//删除图片
+            }
+        }
+    }
 }

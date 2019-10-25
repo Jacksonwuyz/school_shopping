@@ -83,4 +83,13 @@ public interface AdminService {
      * @param ids 多个账户的主键集合
      */
     void deleteAdmins(Admin admin,Integer[] ids)throws MyWebException;
+
+
+    /**
+     * 批量删除客户的头像文件，并将数据库对应的头像信息清空
+     * 说明：无论该客户是否真的存在头像文件，都会一并删除不会出BUG
+     * @param ids 多个账户的主键集合
+     * @param basePath 项目根目录网址，用于删除账户对应的头像文件
+     */
+    void removeAdminsProfilePicture(Integer[] ids,String basePath);
 }

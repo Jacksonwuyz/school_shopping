@@ -9,6 +9,7 @@ import com.example.school_shopping.model.query.CustomerQuery;
 import com.example.school_shopping.model.query.ProductQuery;
 import com.example.school_shopping.service.CustomerService;
 import com.example.school_shopping.util.SHA;
+import com.example.school_shopping.util.file.MyFileOperator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -162,5 +163,18 @@ public class CustomerServiceImp implements CustomerService {
         }
         customerDao.deletes(ids);
     }
-
+    //批量移除头像
+    @Override
+    public void removeCustomersProfilePicture(Integer[] ids, String basePath) {
+        for(Integer id:ids){
+            //删除账户对应的图片
+            Customer customer=customerDao.getCustomer(id);//读取相应的记录
+            String picUrl=customer.getPicUrl();//获取头像地址
+            if(!StringUtils.isEmpty(picUrl)){//如果头像存在
+                customer.setPicUrl("");//清空图片地址
+                customerDao.updateCustomer(customer);
+                MyFileOperator.deleteFile(basePath+ Constant.CUSTOMER_PROFILE_PICTURE_UPLOAD_URL+picUrl);//删除图片
+            }
+        }
+    }
 }

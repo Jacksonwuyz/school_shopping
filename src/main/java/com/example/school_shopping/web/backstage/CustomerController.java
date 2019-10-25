@@ -118,6 +118,18 @@ public class CustomerController {
         customerService.deleteCustomers(ids);
         return map;
     }
+
+
+    @ApiOperation(value = "批量移除客户头像", notes = "根据id的值删除客户头像")
+    @ApiImplicitParam(name = "ids", value = "要移除头像的客户id集合", required = true,paramType = "path",example ="15,25,74" )
+    @PatchMapping("/removeCustomersProfilePicture/{ids}")
+    public Map<String, Object> removeCustomersProfilePicture(@PathVariable("ids")Integer[] ids){
+        Map<String, Object> map=new HashMap<String, Object>();
+        String basePath=uploadFolder;
+        customerService.removeCustomersProfilePicture(ids,basePath);
+        map.put("code", 0);//默认失败
+        return map;
+    }
     @ApiOperation(value = "上传指定客户的头像", notes = "根据id的值上传指定客户的头像")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "指定账户id", paramType = "path", required = true),

@@ -80,7 +80,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
                 throw new MyServiceException("操作错误：商品"+product.getName()+"已经下架，请移除该商品");
             }
             //检查库存是否足够
-            if(numberOfSale>product.getRepository()){
+           if(numberOfSale>product.getNumber()){
                 throw new MyServiceException("操作错误：商品"+product.getName()+"库存不足");
             }
         }else{
@@ -136,7 +136,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
                 throw new MyServiceException("操作错误：商品"+product.getName()+"已经下架，请移除该商品");
             }
             //检查库存是否足够
-            if(numberOfSale>product.getRepository().intValue()){
+            if(numberOfSale>product.getNumber().intValue()){
                 throw new MyServiceException("操作错误：商品"+product.getName()+"库存不足");
             }
         }else{

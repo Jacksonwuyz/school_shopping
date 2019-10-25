@@ -6,6 +6,7 @@ import com.example.school_shopping.model.base.Constant;
 import com.example.school_shopping.model.base.PageObject;
 import com.example.school_shopping.model.query.ProductQuery;
 import com.example.school_shopping.service.ProductService;
+import com.example.school_shopping.util.file.MyFileOperator;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -25,7 +26,7 @@ public class ProductServiceImp implements ProductService{
         for(Product product:productList){
             //将头像网址进行处理，变为完整的地址
             if(!StringUtils.isEmpty(product.getPicUrl())){//只要有图片则加上绝对地址
-                product.setPicUrl(basePath+ Constant.PRODUCT_PROFILE_PICTURE_URL+product.getPicUrl());
+                product.setPicUrl(basePath+ Constant.PRODUCT_PICTURE_URL+product.getPicUrl());
             }
             //获取栏目下的产品数量
             productQuery=new ProductQuery();
@@ -125,5 +126,20 @@ public class ProductServiceImp implements ProductService{
 
 
         return productDao.searchProducts(name);
+    }
+
+    //批量移除头像
+    @Override
+    public void removeProductsProfilePicture(Integer[] ids, String basePath) {
+        for(Integer id:ids){
+            //删除账户对应的图片
+            Product product=productDao.getProduct(id);//读取相应的记录
+            String picUrl=product.getPicUrl();//获取头像地址
+            if(!StringUtils.isEmpty(picUrl)){//如果头像存在
+                product.setPicUrl("");//清空图片地址
+                productDao.updateProduct(product);
+                MyFileOperator.deleteFile(basePath+ Constant.PRODUCT_PICTURE_UPLOAD_URL+picUrl);//删除图片
+            }
+        }
     }
 }

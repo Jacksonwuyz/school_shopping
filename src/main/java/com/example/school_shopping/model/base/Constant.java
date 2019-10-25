@@ -36,9 +36,9 @@ public class Constant {
     //产品类别图片上传配置
     public static final String PRODUCTTYPE_PICTURE_UPLOAD_URL= "producttype/";//保存产品栏目的目录，用于上传和删除的时候，如果放在static目录下，必须指明static下的绝对路径
     public static final String PRODUCTTYPE_PICTURE_URL= "upload/producttype/";//保存产品栏目的目录,用于展示的时候，不需要加上static
-    //商品头像上传配置
+    //商品上传配置
     public static final String PRODUCT_PICTURE_UPLOAD_URL= "product/";//保存商品的目录，用于上传的时候，如果放在static目录下，必须指明static下的绝对路径
-    public static final String PRODUCT_PROFILE_PICTURE_URL="upload/product/";//保存商品个人头像的目录,用于展示的时候，不需要加上static
+    public static final String PRODUCT_PICTURE_URL="upload/product/";//保存商品个人头像的目录,用于展示的时候，不需要加上static
 
 
   /*  //产品优先级

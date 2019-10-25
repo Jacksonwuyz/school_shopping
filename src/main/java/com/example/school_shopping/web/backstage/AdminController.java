@@ -157,7 +157,17 @@ public class AdminController {
         map.put("msg", "删除成功！！！");
         return map;
     }
-    @ApiOperation(value = "上传指定客户的头像", notes = "根据id的值上传指定客户的头像")
+    @ApiOperation(value = "批量移除管理员头像", notes = "根据id的值删除管理员头像")
+    @ApiImplicitParam(name = "ids", value = "要移除头像的管理员id集合", required = true,paramType = "path",example ="15,25,74" )
+    @PatchMapping("/removeAdminsProfilePicture/{ids}")
+    public Map<String, Object> removeCustomersProfilePicture(@PathVariable("ids")Integer[] ids){
+        Map<String, Object> map=new HashMap<String, Object>();
+        String basePath=uploadFolder;
+        adminService.removeAdminsProfilePicture(ids,basePath);
+        map.put("code", 0);//默认失败
+        return map;
+    }
+    @ApiOperation(value = "上传指定管理员的头像", notes = "根据id的值上传指定管理员的头像")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "指定账户id", paramType = "path", required = true),
             @ApiImplicitParam(name = "file", value = "要上传的头像", paramType = "form", dataType="__file",required = true)
@@ -171,7 +181,7 @@ public class AdminController {
             if(admin!=null){//如果该账户存在，则执行上传
                 //String basepath=ClassUtils.getDefaultClassLoader().getResource("").getPath();//获取项目的根目录(物理路径)，注意不能用JSP那套获取根目录，因为spring boot的tomcat为内置，每次都变
                 String basepath=uploadFolder;
-                String filePath=basepath+ Constant.ADMIN_PROFILE_PICTURE_URL;//获取图片上传后保存的物理路径
+                String filePath=basepath+ Constant.ADMIN_PROFILE_PICTURE_UPLOAD_URL;//获取图片上传后保存的物理路径
                 MyFileOperator.createDir(filePath);//创建存储目录
                 String fileName=file.getOriginalFilename();//获取文件名
                 String extensionName= MyFileOperator.getExtensionName(fileName);//获取文件扩展名

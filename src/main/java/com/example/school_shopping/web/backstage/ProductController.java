@@ -145,6 +145,18 @@ public class ProductController {
         map.put("msg", "删除成功！！！");
         return map;
     }
+
+
+    @ApiOperation(value = "批量移除商品图片", notes = "根据id的值删除商品图片")
+    @ApiImplicitParam(name = "ids", value = "要移除头像的商品id集合", required = true,paramType = "path",example ="15,25,74" )
+    @PatchMapping("/removeProductsProfilePicture/{ids}")
+    public Map<String, Object> removeCustomersProfilePicture(@PathVariable("ids")Integer[] ids){
+        Map<String, Object> map=new HashMap<String, Object>();
+        String basePath=uploadFolder;
+        productService.removeProductsProfilePicture(ids,basePath);
+        map.put("code", 0);//默认失败
+        return map;
+    }
     @ApiOperation(value = "上传指定产品栏目的图片", notes = "上传指定产品栏目的图片")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "指定产品栏目的id", paramType = "path", required = true,example="1"),
