@@ -58,7 +58,7 @@ public class ShopLoginController {
  /*执行注册页面*/
     @ApiOperation(value = "前台注册")
     @PostMapping("/registered")
-    public Map<String,Object> SaveShopCustomer(Customer customer) {
+    public Map<String,Object> SaveShopCustomer(@RequestBody Customer customer) {
         Map<String,Object> map=new HashMap<String,Object>();
         if (customer.getPassword().length() == 0) {
             map.put("msg", "账号密码不能为空!");

@@ -19,7 +19,14 @@ public interface ProductService {
      * @return 以List方式返回
      */
     List<Product> getProductList(String basePath);
-
+  /*  *
+     * 分页查询产品
+     * @param page 当前页面
+     * @param limit  每页最多显示的记录数
+     * @param productQuery 查询条件类
+     * @return
+     */
+    PageObject priceProducts(Integer page, Integer limit, ProductQuery productQuery);
 
     /*
       * 将账户信息存进数据库
@@ -67,7 +74,7 @@ public interface ProductService {
       *
       * 获取前台分类产品
       * */
-    List<Product> getShopProductTypelist(Integer productTypeId);
+    List<Product> getShopProductTypelist(Integer productTypeId,String basePath);
     /*
           *  根据标识符获取相应的管理账户对象
           *  @param id

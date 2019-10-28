@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public class ProductTypeController {
 
     @ApiOperation(value="产品分类添加")
     @PostMapping
-    public Map<String,Object> SaveProductType(ProductType productType) {
+    public Map<String,Object> SaveProductType(ProductType productType,HttpSession session) {
         Map<String,Object> map=new HashMap<String,Object>();
         productType.setName(productType.getName().trim());
         if (productType.getName().length() == 0) {
@@ -72,7 +73,7 @@ public class ProductTypeController {
     //执行产品分类编辑操作   修改
     @ApiOperation(value = "产品分类编辑")
     @PutMapping
-    public Map<String,Object> ProductTypeupdate(ProductType productType) {
+    public Map<String,Object> ProductTypeupdate(@RequestBody ProductType productType) {
         Map<String,Object> map=new HashMap<String,Object>();
         productType.setName(productType.getName().trim());
         if (productType.getName().length() == 0) {

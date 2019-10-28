@@ -101,8 +101,9 @@
 	</select>
 
 	<select id="query" resultMap="product">
-		/* select * from product*/
-		select id,productTypeId,name,orderNum,price,originalPrice,picUrl,repository,click,onSale,createTime,creatorId,finalEditorId,updateTime from product
+		 select * from product
+-- 		select id,productTypeId,name,orderNum,price,originalPrice,picUrl,click,onSale,createTime,creatorId,finalEditorId,updateTime from product
+
 		<if test="objectQuery!=null">
 			<where>
 				<if test="objectQuery.name!=null and objectQuery.name.length()>0">

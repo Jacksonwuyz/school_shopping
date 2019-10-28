@@ -4,6 +4,8 @@ import com.example.school_shopping.dao.ProductDao;
 import com.example.school_shopping.model.Product;
 import com.example.school_shopping.model.ProductType;
 import com.example.school_shopping.model.base.Constant;
+import com.example.school_shopping.model.base.PageObject;
+import com.example.school_shopping.model.query.ProductQuery;
 import com.example.school_shopping.service.ProductService;
 import com.example.school_shopping.service.ProductTypeService;
 import com.example.school_shopping.util.file.MyFileOperator;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -35,6 +38,7 @@ public class ProductController {
     @Value("${myFile.uploadFolder}")
     private String uploadFolder;//上传路径
 
+
     //跳转到产品模块页面
     @ApiOperation(value = "读取商品信息")
    @GetMapping
@@ -42,7 +46,7 @@ public class ProductController {
         Map<String,Object> map=new HashMap<String,Object>();
         String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";//获取项目根目录网址
         List<Product> list=productService.getProductList(basePath);
-        map.put("toal",list.size());
+        map.put("total",list.size());
         map.put("data",list);
         map.put("code",0);
         return map;
@@ -53,7 +57,7 @@ public class ProductController {
 
     @ApiOperation(value = "产品添加")
     @PostMapping
-    public Map<String,Object> SaveProduct(Product product) {
+    public Map<String,Object> SaveProduct(Product product,HttpSession session) {
         Map<String,Object> map=new HashMap<String,Object>();
         product.setName(product.getName().trim());
         if (product.getName().length() == 0) {
@@ -68,17 +72,18 @@ public class ProductController {
             map.put("myMessage", "产品添加:产品原价不能为空");
         } else if (product.getClick() == null) {
             map.put("myMessage", "产品添加:产品点击数不能为空");
-        } else if(productService.existsProduct(product.getName())==true){
-            if (productService.SaveProduct(product)) {
-                map.put("product", null);
-                map.put("code", 0);
-                map.put("msg", "产品添加成功！！！");
-              }
         } else {
-            map.put("code", 1);
-            map.put("msg", "重名，产品添加失败！！！");
-
-         }
+            if(productService.existsProduct(product.getName())==true){
+                if (productService.SaveProduct(product)) {
+                    map.put("product", null);
+                    map.put("code", 0);
+                    map.put("msg", "产品添加成功！！！");
+                }
+            } else {
+                map.put("code", 1);
+                map.put("msg", "重名，产品添加失败！！！");
+            }
+        }
         return map;
     }
 
@@ -97,7 +102,7 @@ public class ProductController {
     //执行产品编辑操作
     @ApiOperation(value = "产品编辑操作")
     @PutMapping
-    public Map<String, Object> UpdateProduct(Product product) {
+    public Map<String, Object> UpdateProduct(@RequestBody Product product) {
         Map<String,Object> map=new HashMap<String,Object>();
         product.setName(product.getName().trim());
         if (product.getName().length() == 0) {

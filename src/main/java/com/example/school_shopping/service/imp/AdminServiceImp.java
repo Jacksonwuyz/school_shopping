@@ -61,6 +61,9 @@ public class AdminServiceImp implements AdminService {
     //编辑（修改）
     public boolean updateAdmin(Admin admin) {
         boolean status = false;//存储修改结果
+        if (admin.getPassword()!=null){
+            admin.setPassword(SHA.getResult(admin.getPassword()));
+        }
         if (adminDao.existsAdmin(admin.getUsername())==null) {//如果不重名
             if (adminDao.updateAdmin(admin) == 1) {
                 status = true;

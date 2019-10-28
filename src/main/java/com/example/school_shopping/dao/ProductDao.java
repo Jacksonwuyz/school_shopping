@@ -102,5 +102,13 @@ public interface ProductDao {
      * @return null表示读取失败
      */
     Product getSimple(Integer id);
+    /**
+     * 读取部分记录，一般配合业务层分页方法展示
+     * @param offset 第一条记录索引（从0开始）
+     * @param length 显示记录个数（指从第一条记录开始，显示第N条）
+     * @param objectQuery 查询条件类
+     * @return
+     */
+    List<Product> query(@Param(value = "offset") final int offset, @Param(value = "length") final int length,@Param(value = "objectQuery")Object objectQuery);
 
 }

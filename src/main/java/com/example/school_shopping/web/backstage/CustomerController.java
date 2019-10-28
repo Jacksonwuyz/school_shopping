@@ -53,7 +53,7 @@ public class CustomerController {
 
     @PostMapping
     @ApiOperation(value = "添加客户")
-    public Map<String,Object> SaveCustomer(HttpSession session,Customer customer) {
+    public Map<String,Object> SaveCustomer(Customer customer,HttpSession session) {
         Map<String,Object> map=new HashMap<String,Object>();
         Customer customer1=(Customer)session.getAttribute("customer1");
         if (customer.getPassword().length() == 0) {
@@ -88,7 +88,7 @@ public class CustomerController {
     //修改
     @ApiOperation(value = "客户编辑")
     @PutMapping
-    public Map<String,Object> CustomerUpdate(HttpSession session,Customer customer) {
+    public Map<String,Object> CustomerUpdate(@RequestBody HttpSession session,Customer customer) {
         Map<String,Object> map=new HashMap<String,Object>();
         customer.setName(customer.getName().trim());
         customer.setUsername(customer.getUsername().trim());

@@ -1,6 +1,7 @@
 package com.example.school_shopping.web.backstage;
 
 import com.example.school_shopping.model.Admin;
+import com.example.school_shopping.model.AdminPasswordEditForm;
 import com.example.school_shopping.model.base.Constant;
 import com.example.school_shopping.service.AdminService;
 import com.example.school_shopping.util.file.MyFileOperator;
@@ -44,7 +45,7 @@ public class AdminController {
     }
     @ApiOperation(value = "执行删除管理员操作")
     @DeleteMapping
-    public Map<String,Object> DeleteAdmin(HttpSession session,Integer id) {
+    public Map<String,Object> DeleteAdmin(@PathVariable HttpSession session,Integer id) {
         Map<String,Object> map=new HashMap<String,Object>();
         Admin admin=(Admin)session.getAttribute("admin");
         adminService.deleteAdmin(id,admin.getId());
@@ -56,7 +57,7 @@ public class AdminController {
     //修改
     @ApiOperation(value = "修改")
     @PutMapping
-    public Map<String,Object> UpdateAdmin(Admin admin,HttpSession session){
+    public Map<String,Object> UpdateAdmin(@RequestBody Admin admin){
         Map<String,Object> map=new HashMap<String,Object>();
 
         if (admin.getUsername().equals("")){
@@ -82,22 +83,23 @@ public class AdminController {
 
     //修改密码
     @ApiOperation(value = "修改密码")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "oldPass", value = "原密码"),
-            @ApiImplicitParam(name = "newPass", value = "新密码"),
-            @ApiImplicitParam(name = "confirmPass", value = "确认密码")
-    })
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "oldPass", value = "原密码"),
+//            @ApiImplicitParam(name = "newPass", value = "新密码"),
+//            @ApiImplicitParam(name = "confirmPass", value = "确认密码")
+//    })
     @PutMapping("/updatePassword")
-   public Map<String,Object> UpdatePassword(String oldPass,String newPass,String confirmPass,HttpSession session){
+   public Map<String,Object> UpdatePassword(@PathVariable @RequestBody AdminPasswordEditForm adminPasswordEditForm, HttpSession session){
         Map<String,Object> map=new HashMap<String,Object>();
        Admin admin=(Admin)session.getAttribute("admin");
-        if(adminService.login(admin.getUsername(), oldPass)!=null){//如果原密码正确
-           if (newPass.equals("")){
+        if(adminService.login(admin.getUsername(), adminPasswordEditForm.getPassword())!=null){//如果原密码正确
+           if (adminPasswordEditForm.getNewPass().equals("")){
                map.put("msg", "密码修改失败：新密码不能为空！");
-            } else if(newPass.equals(confirmPass)){//如果新密码和确认密码相同
+            } else if(adminPasswordEditForm.getNewPass().equals(adminPasswordEditForm.getRePass())){//如果新密码和确认密码相同
                //保存新密码
                map.put("code",0);
-               adminService.updatePassword(newPass, admin.getId());
+               admin.setPassword(adminPasswordEditForm.getNewPass());
+               adminService.updateAdmin(admin);
                map.put("msg", "密码修改成功！");
             }else{//如果不相同
                map.put("code",1);

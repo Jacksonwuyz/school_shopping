@@ -35,6 +35,26 @@ public class ProductServiceImp implements ProductService{
 
         return productList;
     }
+//分页
+    @Override
+    public PageObject priceProducts(Integer page, Integer limit, ProductQuery productQuery) {
+        PageObject pageObject = new PageObject(limit,page,productDao.querySize(productQuery));
+        pageObject.setList(productDao.query(pageObject.getOffset(),pageObject.getLimit(),productQuery));
+        return pageObject;
+    }
+    @Override
+    public List<Product> getShopProductTypelist(Integer productTypeId,String basePath) {
+        List <Product> products=  productDao.getShopProductTypelist(productTypeId);
+        for(Product product:products){
+            //删除账户对应的图片
+            if (!StringUtils.isEmpty(product.getPicUrl())) {//只要有图片则加上绝对地址
+                product.setPicUrl(basePath+ Constant.PRODUCT_PICTURE_URL+product.getPicUrl());
+            }
+
+        }
+        return products;
+    }
+
 
     public boolean SaveProduct(Product product) {
         boolean stsatus = false;
@@ -103,11 +123,7 @@ public class ProductServiceImp implements ProductService{
         return  maxPage;
     }
 
-    @Override
-    public List<Product> getShopProductTypelist(Integer productTypeId) {
 
-        return productDao.getShopProductTypelist(productTypeId);
-    }
     @Override
     public Product getProduct(Integer id) {
         Product product=null;
@@ -127,7 +143,6 @@ public class ProductServiceImp implements ProductService{
 
         return productDao.searchProducts(name);
     }
-
     //批量移除头像
     @Override
     public void removeProductsProfilePicture(Integer[] ids, String basePath) {
