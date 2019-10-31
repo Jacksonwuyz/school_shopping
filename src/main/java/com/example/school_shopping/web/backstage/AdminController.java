@@ -45,7 +45,7 @@ public class AdminController {
     }
     @ApiOperation(value = "执行删除管理员操作")
     @DeleteMapping
-    public Map<String,Object> DeleteAdmin(@PathVariable HttpSession session,Integer id) {
+    public Map<String,Object> DeleteAdmin(Integer id,HttpSession session) {
         Map<String,Object> map=new HashMap<String,Object>();
         Admin admin=(Admin)session.getAttribute("admin");
         adminService.deleteAdmin(id,admin.getId());

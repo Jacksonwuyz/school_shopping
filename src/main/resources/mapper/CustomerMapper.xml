@@ -31,7 +31,7 @@
 	</delete>
 	<!--注册-->
 	<insert id="SaveShopCustomer">
-		insert into customer(id,username,name,password,picUrl,tel,address,zip,email,intro,createTime) values(null,#{username},#{name},#{password},#{picUrl},#{tel},#{address},#{zip},#{email},#{intro},#{createTime})
+		insert into customer(id,username,name,password,picUrl,tel,address,email,intro,createTime) values(null,#{username},#{name},#{password},#{picUrl},#{tel},#{address},#{email},#{intro},#{createTime})
 	</insert>
 
 	<update id="updateCustomer">
@@ -43,7 +43,6 @@
 			<if test="picUrl!=null">picUrl=#{picUrl},</if>
 			<if test="tel!=null">tel=#{tel},</if>
 			<if test="address!=null">address=#{address},</if>
-			<if test="zip!=null">zip=#{zip},</if>
 			<if test="email!=null">email=#{email},</if>
 			<if test="intro!=null">intro=#{intro},</if>
 		</set>

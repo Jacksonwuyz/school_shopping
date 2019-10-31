@@ -58,7 +58,7 @@ public class ShopLoginController {
  /*执行注册页面*/
     @ApiOperation(value = "前台注册")
     @PostMapping("/registered")
-    public Map<String,Object> SaveShopCustomer(@RequestBody Customer customer) {
+    public Map<String,Object> SaveShopCustomer(Customer customer) {
         Map<String,Object> map=new HashMap<String,Object>();
         if (customer.getPassword().length() == 0) {
             map.put("msg", "账号密码不能为空!");
@@ -67,7 +67,7 @@ public class ShopLoginController {
         } else if (customer.getName().length() == 0) {
             map.put("msg", "姓名不能为空");
         }else if(customerService.existsCustomer(customer.getUsername())==true){
-           if(customerService.SaveShopCustomer(customer)==true) {
+           if(customerService.SaveShopCustomer(customer)) {
             map.put("code", 0);
             map.put("msg", "注册成功！");
            }
